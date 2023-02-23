@@ -1,0 +1,46 @@
+server:
+  port: 9090
+
+spring:
+  profiles:
+    include:
+      - oauth
+  security:
+    oauth2:
+      client:
+        registration:
+          ## kakao 는 authorization_code 이라 해도
+          ## client_secret 활성화 되어있는 경우 필수: clientAuthenticationMethod: client_secret_post
+          kakao: # registrationId
+            provider: kakao
+            client-id: 46002d4c24d9228f5ce7e7ded951cb33
+            client-secret: mL7OOGKcBUk3dB4DYFdtgezJOyfcLwZP
+            clientAuthenticationMethod: client_secret_post
+            authorizationGrantType: authorization_code
+            redirectUri: http://localhost:9090/login/oauth2/code/kakao
+            scope:
+              - account_email
+            clientName: Sign in with kakao
+        provider:
+          kakao:
+            authorizationUri: https://kauth.kakao.com/oauth/authorize
+            tokenUri: https://kauth.kakao.com/oauth/token
+            userInfoUri: https://kapi.kakao.com/v2/user/me
+            userNameAttribute: id
+            #https://kapi.kakao.com/v1/oidc/userinfo
+
+  thymeleaf:
+    suffix: .html
+    mode: HTML
+    cache: false
+    check-template: false
+    encoding: UTF-8
+    template-resolver-order: 1
+
+logging:
+  level:
+    root: INFO
+    org:
+      springframework:
+        security: TRACE
+        web: DEBUG
