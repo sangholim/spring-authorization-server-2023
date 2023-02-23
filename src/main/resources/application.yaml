@@ -1,0 +1,17 @@
+server:
+  port: 9090
+
+spring:
+  security:
+    oauth2:
+      client:
+        registration:
+          kakao-idp:
+            provider: kakao
+            clientId: 46002d4c24d9228f5ce7e7ded951cb33
+            clientSecret: mL7OOGKcBUk3dB4DYFdtgezJOyfcLwZP
+            scope: openid
+            clientName: Sign in with kakao
+        provider:
+          kakao:
+            userNameAttribute: email
