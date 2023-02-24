@@ -19,15 +19,15 @@ spring:
             authorizationGrantType: authorization_code
             redirectUri: http://localhost:9090/login/oauth2/code/kakao
             scope:
-              - account_email
+              - openid
             clientName: Sign in with kakao
         provider:
           kakao:
             authorizationUri: https://kauth.kakao.com/oauth/authorize
             tokenUri: https://kauth.kakao.com/oauth/token
-            userInfoUri: https://kapi.kakao.com/v2/user/me
-            userNameAttribute: id
-            #https://kapi.kakao.com/v1/oidc/userinfo
+            userInfoUri: https://kapi.kakao.com/v1/oidc/userinfo
+            jwkSetUri: https://kauth.kakao.com/.well-known/jwks.json
+            userNameAttribute: sub
   datasource:
     driver-class-name: org.postgresql.Driver
     url: jdbc:postgresql://localhost:5432/authorization
@@ -48,8 +48,9 @@ spring:
     check-template: false
     encoding: UTF-8
     template-resolver-order: 1
-  liquibase:
-    enabled: true
+  flyway:
+    enabled: false
+    baseline-on-migrate: true
 
 
 
