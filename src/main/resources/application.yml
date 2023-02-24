@@ -49,9 +49,10 @@ spring:
     encoding: UTF-8
     template-resolver-order: 1
   flyway:
-    enabled: false
+    enabled: true
     baseline-on-migrate: true
-
+    user: root
+    password: password
 
 
 logging:
