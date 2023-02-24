@@ -28,7 +28,19 @@ spring:
             userInfoUri: https://kapi.kakao.com/v2/user/me
             userNameAttribute: id
             #https://kapi.kakao.com/v1/oidc/userinfo
-
+  datasource:
+    driver-class-name: org.postgresql.Driver
+    url: jdbc:postgresql://localhost:5432/authorization
+    username: root
+    password: password
+  jpa:
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+        format_sql: true
+        show-sql: true
+    hibernate:
+      ddl-auto: update
   thymeleaf:
     suffix: .html
     mode: HTML
@@ -36,6 +48,10 @@ spring:
     check-template: false
     encoding: UTF-8
     template-resolver-order: 1
+  liquibase:
+    enabled: true
+
+
 
 logging:
   level:
