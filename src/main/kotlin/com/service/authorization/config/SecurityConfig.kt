@@ -39,6 +39,7 @@ class SecurityConfig(
                     .authenticationEntryPoint(
                             LoginUrlAuthenticationEntryPoint("/login"))
         }
+        http.apply(FederatedIdentityConfigurer(customerOAuth2UserService))
         http.oauth2ResourceServer { it.jwt() }
         return http.build()
     }
