@@ -10,6 +10,7 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity
 import org.springframework.security.core.userdetails.UserDetailsService
 import org.springframework.security.oauth2.client.oidc.userinfo.OidcUserRequest
+import org.springframework.security.oauth2.client.registration.ClientRegistrationRepository
 import org.springframework.security.oauth2.client.userinfo.OAuth2UserService
 import org.springframework.security.oauth2.core.oidc.user.OidcUser
 import org.springframework.security.oauth2.server.authorization.config.annotation.web.configuration.OAuth2AuthorizationServerConfiguration
@@ -23,6 +24,7 @@ import java.util.*
 @EnableWebSecurity
 @Configuration
 class SecurityConfig(
+        private val clientRegistrationRepository: ClientRegistrationRepository,
         private val customerOAuth2UserService: OAuth2UserService<OidcUserRequest, OidcUser>,
         private val userNameAndPasswordService: UserDetailsService
 ) {
@@ -39,7 +41,7 @@ class SecurityConfig(
                     .authenticationEntryPoint(
                             LoginUrlAuthenticationEntryPoint("/login"))
         }
-        http.apply(FederatedIdentityConfigurer(customerOAuth2UserService))
+        http.apply(FederatedIdentityConfigurer(clientRegistrationRepository, customerOAuth2UserService))
         http.oauth2ResourceServer { it.jwt() }
         return http.build()
     }
@@ -59,7 +61,7 @@ class SecurityConfig(
                 .and()
                 .userDetailsService(userNameAndPasswordService)
 
-        http.apply(FederatedIdentityConfigurer(customerOAuth2UserService))
+        http.apply(FederatedIdentityConfigurer(clientRegistrationRepository, customerOAuth2UserService))
 
         return http.build()
     }
