@@ -1,7 +1,6 @@
 package com.service.authorization.user
 
 import com.service.authorization.userRole.UserRoleService
-import org.springframework.security.core.authority.SimpleGrantedAuthority
 import org.springframework.security.core.userdetails.User
 import org.springframework.security.oauth2.client.oidc.userinfo.OidcUserRequest
 import org.springframework.security.oauth2.client.userinfo.OAuth2UserService
@@ -21,13 +20,7 @@ class CustomOAuth2UserService(
                 .roles("USER")
                 .build()
         val user = userService.getBy(email = email) ?: userService.save(userDetail)
-        val userRoles = userRoleService.getAllBy(userId = user.id)
-                .map { SimpleGrantedAuthority(it.role) }.let { it ->
-                    if (!it.containsAll(userDetail.authorities)) {
-                        return@let userRoleService.saveAll(user.id, userDetail.authorities.toList()).map { SimpleGrantedAuthority(it.role) }
-                    }
-                    it
-                }
+        val userRoles = userRoleService.getAllOrSave(user.id, userDetail.authorities.toList())
 
         return DefaultOidcUser(userRoles, userRequest.idToken)
     }
