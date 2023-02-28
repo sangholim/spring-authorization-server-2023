@@ -3,6 +3,7 @@ package com.service.authorization.config
 import com.service.authorization.user.CustomOAuth2UserService
 import com.service.authorization.user.UserNameAndPasswordService
 import com.service.authorization.user.UserService
+import com.service.authorization.userFederatedIdentity.UserFederatedIdentityService
 import com.service.authorization.userRole.UserRoleService
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
@@ -19,6 +20,6 @@ class UserSecurityConfig {
             UserNameAndPasswordService(userService, userRoleService)
 
     @Bean
-    fun customOAuth2UserService(userService: UserService, userRoleService: UserRoleService): OAuth2UserService<OidcUserRequest, OidcUser> =
-            CustomOAuth2UserService(userService, userRoleService)
+    fun customOAuth2UserService(userService: UserService, userRoleService: UserRoleService, userFederatedIdentityService: UserFederatedIdentityService): OAuth2UserService<OidcUserRequest, OidcUser> =
+            CustomOAuth2UserService(userService, userRoleService, userFederatedIdentityService)
 }
