@@ -65,9 +65,6 @@ class SecurityConfig(
                 .defaultSuccessUrl("/console/frame")
                 .and()
                 .userDetailsService(userNameAndPasswordService)
-
-        http.apply(FederatedIdentityConfigurer(clientRegistrationRepository, customerOAuth2UserService))
-
         return http.build()
     }
 
