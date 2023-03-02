@@ -6,6 +6,7 @@ import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
 import org.springframework.core.Ordered
 import org.springframework.core.annotation.Order
+import org.springframework.jdbc.core.JdbcTemplate
 import org.springframework.security.config.Customizer
 import org.springframework.security.config.annotation.web.builders.HttpSecurity
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity
@@ -16,6 +17,10 @@ import org.springframework.security.oauth2.client.registration.ClientRegistratio
 import org.springframework.security.oauth2.client.userinfo.OAuth2UserService
 import org.springframework.security.oauth2.core.oidc.endpoint.OidcParameterNames
 import org.springframework.security.oauth2.core.oidc.user.OidcUser
+import org.springframework.security.oauth2.jwt.JwtDecoder
+import org.springframework.security.oauth2.server.authorization.JdbcOAuth2AuthorizationService
+import org.springframework.security.oauth2.server.authorization.OAuth2AuthorizationService
+import org.springframework.security.oauth2.server.authorization.client.RegisteredClientRepository
 import org.springframework.security.oauth2.server.authorization.config.annotation.web.configuration.OAuth2AuthorizationServerConfiguration
 import org.springframework.security.oauth2.server.authorization.config.annotation.web.configurers.OAuth2AuthorizationServerConfigurer
 import org.springframework.security.oauth2.server.authorization.settings.AuthorizationServerSettings
@@ -25,13 +30,13 @@ import org.springframework.security.web.SecurityFilterChain
 import org.springframework.security.web.authentication.LoginUrlAuthenticationEntryPoint
 import java.util.*
 
-
 @EnableWebSecurity
 @Configuration
 class SecurityConfig(
         private val clientRegistrationRepository: ClientRegistrationRepository,
         private val customerOAuth2UserService: OAuth2UserService<OidcUserRequest, OidcUser>,
-        private val userNameAndPasswordService: UserDetailsService
+        private val userNameAndPasswordService: UserDetailsService,
+        private val jwtDecoder: JwtDecoder
 ) {
 
     @Bean
@@ -47,7 +52,7 @@ class SecurityConfig(
                             LoginUrlAuthenticationEntryPoint("/login"))
         }
         http.apply(FederatedIdentityConfigurer(clientRegistrationRepository, customerOAuth2UserService))
-        http.oauth2ResourceServer { it.jwt() }
+        http.oauth2ResourceServer { it.jwt().decoder(jwtDecoder) }
         return http.build()
     }
 
@@ -65,6 +70,8 @@ class SecurityConfig(
                 .defaultSuccessUrl("/console/frame")
                 .and()
                 .userDetailsService(userNameAndPasswordService)
+                .oauth2ResourceServer { it.jwt().decoder(jwtDecoder) }
+
         return http.build()
     }
 
@@ -83,15 +90,26 @@ class SecurityConfig(
     }
 
 
+    /**
+     * ID 토큰 커스텀 로직 생성
+     */
     @Bean
     fun tokenCustomizer(userInfoService: CustomOAuth2UserService): OAuth2TokenCustomizer<JwtEncodingContext> {
         return OAuth2TokenCustomizer { context: JwtEncodingContext ->
             if (OidcParameterNames.ID_TOKEN == context.tokenType.value) {
                 println("test: ${context.getPrincipal<Authentication>()}")
                 //val userInfo: OidcUserInfo = userInfoService.loadUser(
-                        //context.getPrincipal<Authentication>().name)
+                //context.getPrincipal<Authentication>().name)
                 //context.claims.claims { claims: MutableMap<String?, Any?> -> claims.putAll(userInfo.claims) }
             }
         }
+    }
+
+    /**
+     * 회원 승인 정보 저장 서비스
+     */
+    @Bean
+    fun authorizationService(jdbcTemplate: JdbcTemplate, registeredClientRepository: RegisteredClientRepository): OAuth2AuthorizationService {
+        return JdbcOAuth2AuthorizationService(jdbcTemplate, registeredClientRepository)
     }
 }
