@@ -1,7 +1,8 @@
 package com.service.authorization.config
 
 import com.service.authorization.federatedIdentity.FederatedIdentityConfigurer
-import com.service.authorization.user.CustomOAuth2UserService
+import com.service.authorization.token.TokenCustomizer
+import com.service.authorization.oauth.CustomOAuth2UserService
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
 import org.springframework.core.Ordered
@@ -10,12 +11,10 @@ import org.springframework.jdbc.core.JdbcTemplate
 import org.springframework.security.config.Customizer
 import org.springframework.security.config.annotation.web.builders.HttpSecurity
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity
-import org.springframework.security.core.Authentication
 import org.springframework.security.core.userdetails.UserDetailsService
 import org.springframework.security.oauth2.client.oidc.userinfo.OidcUserRequest
 import org.springframework.security.oauth2.client.registration.ClientRegistrationRepository
 import org.springframework.security.oauth2.client.userinfo.OAuth2UserService
-import org.springframework.security.oauth2.core.oidc.endpoint.OidcParameterNames
 import org.springframework.security.oauth2.core.oidc.user.OidcUser
 import org.springframework.security.oauth2.jwt.JwtDecoder
 import org.springframework.security.oauth2.server.authorization.JdbcOAuth2AuthorizationService
@@ -71,7 +70,7 @@ class SecurityConfig(
                 .and()
                 .userDetailsService(userNameAndPasswordService)
                 .oauth2ResourceServer { it.jwt().decoder(jwtDecoder) }
-
+        http.apply(FederatedIdentityConfigurer(clientRegistrationRepository, customerOAuth2UserService))
         return http.build()
     }
 
@@ -89,27 +88,20 @@ class SecurityConfig(
                 .build()
     }
 
-
-    /**
-     * ID 토큰 커스텀 로직 생성
-     */
-    @Bean
-    fun tokenCustomizer(userInfoService: CustomOAuth2UserService): OAuth2TokenCustomizer<JwtEncodingContext> {
-        return OAuth2TokenCustomizer { context: JwtEncodingContext ->
-            if (OidcParameterNames.ID_TOKEN == context.tokenType.value) {
-                println("test: ${context.getPrincipal<Authentication>()}")
-                //val userInfo: OidcUserInfo = userInfoService.loadUser(
-                //context.getPrincipal<Authentication>().name)
-                //context.claims.claims { claims: MutableMap<String?, Any?> -> claims.putAll(userInfo.claims) }
-            }
-        }
-    }
-
     /**
      * 회원 승인 정보 저장 서비스
      */
     @Bean
     fun authorizationService(jdbcTemplate: JdbcTemplate, registeredClientRepository: RegisteredClientRepository): OAuth2AuthorizationService {
         return JdbcOAuth2AuthorizationService(jdbcTemplate, registeredClientRepository)
+    }
+
+    /**
+     * 토큰 클레임 커스텀 소스
+     */
+    @Bean
+    fun tokenCustomizer(customerOAuth2UserService: CustomOAuth2UserService):
+            OAuth2TokenCustomizer<JwtEncodingContext> {
+        return TokenCustomizer(customerOAuth2UserService)
     }
 }

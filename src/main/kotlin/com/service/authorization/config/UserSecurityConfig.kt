@@ -1,6 +1,6 @@
 package com.service.authorization.config
 
-import com.service.authorization.user.CustomOAuth2UserService
+import com.service.authorization.oauth.CustomOAuth2UserService
 import com.service.authorization.user.UserNameAndPasswordService
 import com.service.authorization.user.UserService
 import com.service.authorization.userFederatedIdentity.UserFederatedIdentityService

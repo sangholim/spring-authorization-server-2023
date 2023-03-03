@@ -11,4 +11,6 @@ class UserService(
     fun save(userDetails: UserDetails): User = userRepository.save(User.of(userDetails))
 
     fun getBy(email: String): User? = userRepository.findByEmail(email)
+
+    fun getById(id: String): User? = userRepository.findById(id).orElse(null)
 }

@@ -16,6 +16,6 @@ class UserNameAndPasswordService(
         val user = userService.getBy(username) ?: throw Exception("없는 회원 입니다")
         val roles = userRoleService.getAllBy(user.id).map { SimpleGrantedAuthority(it.role) }
         logger.debug("authenticated user: ${user.email}")
-        return User.builder().username(user.email).password(user.password).authorities(roles).build()
+        return User.builder().username(user.id).password(user.password).authorities(roles).build()
     }
 }
