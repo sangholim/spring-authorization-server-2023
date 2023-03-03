@@ -58,6 +58,9 @@ spring:
 logging:
   level:
     root: INFO
+    com:
+      service:
+        authorization: DEBUG
     org:
       springframework:
         security: TRACE
