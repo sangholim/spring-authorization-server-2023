@@ -1,5 +1,8 @@
-package com.service.authorization.user
+package com.service.authorization.oauth
 
+import com.service.authorization.user.UserDTO
+import com.service.authorization.user.UserService
+import com.service.authorization.user.toDTO
 import com.service.authorization.userFederatedIdentity.UserFederatedIdentityService
 import com.service.authorization.userRole.UserRoleService
 import org.springframework.security.core.userdetails.User

@@ -1,6 +1,6 @@
 package com.service.authorization.token
 
-import com.service.authorization.user.CustomOAuth2UserService
+import com.service.authorization.oauth.CustomOAuth2UserService
 import org.springframework.security.core.Authentication
 import org.springframework.security.oauth2.core.oidc.OidcUserInfo
 import org.springframework.security.oauth2.core.oidc.endpoint.OidcParameterNames

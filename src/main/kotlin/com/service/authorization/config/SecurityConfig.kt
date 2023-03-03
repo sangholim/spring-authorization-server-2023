@@ -2,7 +2,7 @@ package com.service.authorization.config
 
 import com.service.authorization.federatedIdentity.FederatedIdentityConfigurer
 import com.service.authorization.token.TokenCustomizer
-import com.service.authorization.user.CustomOAuth2UserService
+import com.service.authorization.oauth.CustomOAuth2UserService
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
 import org.springframework.core.Ordered
