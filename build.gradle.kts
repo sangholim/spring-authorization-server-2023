@@ -3,7 +3,9 @@ import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 plugins {
     id("org.springframework.boot") version "3.0.2"
     id("io.spring.dependency-management") version "1.1.0"
-    id ("org.jetbrains.kotlin.plugin.jpa" )version "1.8.20-Beta"
+    id("org.jetbrains.kotlin.plugin.jpa") version "1.8.20-Beta"
+    id("io.kotest") version "0.3.8"
+
     kotlin("jvm") version "1.7.22"
     kotlin("plugin.spring") version "1.7.22"
 }
@@ -17,6 +19,7 @@ repositories {
 }
 
 dependencies {
+    implementation(platform("io.kotest:kotest-bom:5.5.5"))
     implementation("org.springframework.boot:spring-boot-starter-security")
     implementation("org.springframework.boot:spring-boot-starter-web")
     implementation("org.springframework.security:spring-security-oauth2-authorization-server:1.0.1")
@@ -34,6 +37,14 @@ dependencies {
     runtimeOnly("org.postgresql:postgresql")
     testImplementation("org.springframework.boot:spring-boot-starter-test")
     testImplementation("org.springframework.security:spring-security-test")
+    testImplementation("io.kotest:kotest-runner-junit5")
+    testImplementation("io.kotest:kotest-assertions-core")
+    testImplementation("io.kotest:kotest-property")
+    testImplementation("org.testcontainers:postgresql:1.17.6")
+    testImplementation("io.kotest.extensions:kotest-extensions-testcontainers:1.3.4")
+    testImplementation("io.kotest.extensions:kotest-extensions-spring:1.1.2")
+
+
 }
 
 tasks.withType<KotlinCompile> {
