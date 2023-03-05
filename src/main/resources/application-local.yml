@@ -1,0 +1,64 @@
+server:
+  port: 9090
+
+spring:
+  security:
+    oauth2:
+      client:
+        registration:
+          ## kakao 는 authorization_code 이라 해도
+          ## client_secret 활성화 되어있는 경우 필수: clientAuthenticationMethod: client_secret_post
+          kakao: # registrationId
+            provider: kakao
+            client-id: 46002d4c24d9228f5ce7e7ded951cb33
+            client-secret: mL7OOGKcBUk3dB4DYFdtgezJOyfcLwZP
+            clientAuthenticationMethod: client_secret_post
+            authorizationGrantType: authorization_code
+            redirectUri: http://localhost:9090/login/oauth2/code/kakao
+            scope:
+              - openid
+            clientName: Sign in with kakao
+        provider:
+          kakao:
+            authorizationUri: https://kauth.kakao.com/oauth/authorize
+            tokenUri: https://kauth.kakao.com/oauth/token
+            userInfoUri: https://kapi.kakao.com/v1/oidc/userinfo
+            jwkSetUri: https://kauth.kakao.com/.well-known/jwks.json
+            userNameAttribute: sub
+  datasource:
+    driver-class-name: org.postgresql.Driver
+    url: jdbc:postgresql://localhost:5432/authorization
+    username: root
+    password: password
+  jpa:
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+        format_sql: true
+        show-sql: true
+    hibernate:
+      ddl-auto: update
+  thymeleaf:
+    suffix: .html
+    mode: HTML
+    cache: false
+    check-template: false
+    encoding: UTF-8
+    template-resolver-order: 1
+  flyway:
+    enabled: true
+    baseline-on-migrate: true
+    user: root
+    password: password
+
+
+logging:
+  level:
+    root: INFO
+    com:
+      service:
+        authorization: DEBUG
+    org:
+      springframework:
+        security: TRACE
+        web: TRACE
