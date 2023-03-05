@@ -2,9 +2,6 @@ server:
   port: 9090
 
 spring:
-  profiles:
-    include:
-      - oauth
   security:
     oauth2:
       client:
