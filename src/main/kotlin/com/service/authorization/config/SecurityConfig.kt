@@ -57,7 +57,7 @@ class SecurityConfig(
                     .anyRequest().authenticated()
         }
                 .formLogin()
-                .defaultSuccessUrl("/console/frame")
+                .defaultSuccessUrl(SecurityConstants.SUCCESS_URL)
                 .and()
                 .userDetailsService(userNameAndPasswordService)
                 .oauth2ResourceServer { it.jwt().decoder(jwtDecoder) }

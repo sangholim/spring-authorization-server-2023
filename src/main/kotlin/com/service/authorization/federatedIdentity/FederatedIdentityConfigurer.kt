@@ -1,5 +1,6 @@
 package com.service.authorization.federatedIdentity
 
+import com.service.authorization.config.SecurityConstants
 import org.springframework.security.config.annotation.web.builders.HttpSecurity
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer
 import org.springframework.security.oauth2.client.oidc.userinfo.OidcUserRequest
@@ -16,7 +17,7 @@ class FederatedIdentityConfigurer(
         http.exceptionHandling { exceptions ->
             exceptions.authenticationEntryPoint(FederatedIdentityAuthenticationEntryPoint(clientRegistrationRepository))
         }.oauth2Login()
-                .defaultSuccessUrl("/console/frame")
+                .defaultSuccessUrl(SecurityConstants.SUCCESS_URL)
                 .userInfoEndpoint()
                 .oidcUserService(customerOAuth2UserService)
     }
