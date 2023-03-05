@@ -35,7 +35,9 @@ dependencies {
 
     runtimeOnly("com.h2database:h2")
     runtimeOnly("org.postgresql:postgresql")
-    testImplementation("org.springframework.boot:spring-boot-starter-test")
+    testImplementation("org.springframework.boot:spring-boot-starter-test") {
+        exclude(module = "mockito-core")
+    }
     testImplementation("org.springframework.security:spring-security-test")
     testImplementation("io.kotest:kotest-runner-junit5")
     testImplementation("io.kotest:kotest-assertions-core")
@@ -43,6 +45,7 @@ dependencies {
     testImplementation("org.testcontainers:postgresql:1.17.6")
     testImplementation("io.kotest.extensions:kotest-extensions-testcontainers:1.3.4")
     testImplementation("io.kotest.extensions:kotest-extensions-spring:1.1.2")
+    testImplementation("com.ninja-squad:springmockk:4.0.1")
 
 
 }
