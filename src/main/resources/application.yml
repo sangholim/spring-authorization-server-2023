@@ -2,11 +2,7 @@ spring:
   profiles:
     include:
       - local
-  session:
-    store-type: redis
-    redis:
-      flush-mode: on_save
-      namespace: spring:session
+
 logging:
   level:
     root: INFO
