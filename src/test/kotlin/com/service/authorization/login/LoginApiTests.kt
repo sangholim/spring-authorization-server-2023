@@ -1,17 +1,15 @@
 package com.service.authorization.login
 
-import com.service.authorization.config.SecurityConstants
+import com.service.authorization.client.login
 import com.service.authorization.config.TestSecurityConfig
+import com.service.authorization.htpHeader.sessionId
+import com.service.authorization.redis.authenticated
 import io.kotest.core.spec.style.BehaviorSpec
-import io.kotest.matchers.string.shouldStartWith
+import io.kotest.matchers.shouldBe
 import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.boot.test.web.client.TestRestTemplate
 import org.springframework.boot.test.web.server.LocalServerPort
-import org.springframework.http.HttpEntity
-import org.springframework.http.HttpHeaders
-import org.springframework.http.HttpMethod
-import org.springframework.http.ResponseEntity
-import org.springframework.util.LinkedMultiValueMap
+import org.springframework.data.redis.core.RedisTemplate
 
 @SpringBootTest(
         webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT,
@@ -19,47 +17,30 @@ import org.springframework.util.LinkedMultiValueMap
 )
 class LoginApiTests(
         @LocalServerPort
-        private val port: Int
+        private val port: Int,
+        private val redisTemplate: RedisTemplate<String, String>
 ) : BehaviorSpec({
-    val url = "http://localhost:$port"
-    fun login(username: String = "user", password: String = "password"): ResponseEntity<String> {
-        val testRestTemplate = TestRestTemplate()
-        val headers = HttpHeaders().apply {
-            this["content-type"] = "application/x-www-form-urlencoded"
-        }
-        val body = LinkedMultiValueMap<String, Any>().apply {
-            this["username"] = username
-            this["password"] = password
-        }
-        val entity = HttpEntity(body, headers)
-        return testRestTemplate.exchange("$url/login", HttpMethod.POST, entity, String::class.java)
-    }
+    val testRestTemplate = TestRestTemplate()
 
     Given("로그인 하기") {
         When("회원이 존재하지 않는 경우") {
             Then("응답 헤더 Location 은 '/login?error' 포함한다") {
-                val expected = "$url/login?error"
-                val response: ResponseEntity<String> = login(username = "aa")
-                val location = response.headers["Location"]?.first() ?: ""
-                location shouldStartWith expected
+                val sessionId = testRestTemplate.login(port = port, username = "aa").headers.sessionId()
+                redisTemplate.authenticated(sessionId) shouldBe false
             }
         }
 
         When("회원이 존재하고 비밀번호가 일치 하지 않는 경우") {
             Then("응답 헤더 Location 은 '/login?error' 포함한다") {
-                val expected = "$url/login?error"
-                val response: ResponseEntity<String> = login(password = "1")
-                val location = response.headers["Location"]?.first() ?: ""
-                location shouldStartWith expected
+                val sessionId = testRestTemplate.login(port = port, password = "1").headers.sessionId()
+                redisTemplate.authenticated(sessionId) shouldBe false
             }
         }
 
         When("회원이 존재하고 비밀번호가 일치 하는 경우") {
             Then("응답 헤더 Location 은 '/console/frame' 포함한다") {
-                val expected = "$url${SecurityConstants.SUCCESS_URL}"
-                val response: ResponseEntity<String> = login()
-                val location = response.headers["Location"]?.first() ?: ""
-                location shouldStartWith expected
+                val sessionId = testRestTemplate.login(port = port).headers.sessionId()
+                redisTemplate.authenticated(sessionId) shouldBe true
             }
         }
     }
