@@ -34,10 +34,11 @@ class LoginApiTests(
         val entity = HttpEntity(body, headers)
         return testRestTemplate.exchange("$url/login", HttpMethod.POST, entity, String::class.java)
     }
+
     Given("로그인 하기") {
         When("회원이 존재하지 않는 경우") {
-            Then("응답 헤더 location 이 로그인 경로") {
-                val expected = "$url/login"
+            Then("응답 헤더 Location 은 '/login?error' 포함한다") {
+                val expected = "$url/login?error"
                 val response: ResponseEntity<String> = login(username = "aa")
                 val location = response.headers["Location"]?.first() ?: ""
                 location shouldStartWith expected
@@ -45,8 +46,8 @@ class LoginApiTests(
         }
 
         When("회원이 존재하고 비밀번호가 일치 하지 않는 경우") {
-            Then("응답 헤더 location 이 로그인 경로") {
-                val expected = "$url/login"
+            Then("응답 헤더 Location 은 '/login?error' 포함한다") {
+                val expected = "$url/login?error"
                 val response: ResponseEntity<String> = login(password = "1")
                 val location = response.headers["Location"]?.first() ?: ""
                 location shouldStartWith expected
@@ -54,7 +55,7 @@ class LoginApiTests(
         }
 
         When("회원이 존재하고 비밀번호가 일치 하는 경우") {
-            Then("응답 헤더 location 이 로그인 경로") {
+            Then("응답 헤더 Location 은 '/console/frame' 포함한다") {
                 val expected = "$url${SecurityConstants.SUCCESS_URL}"
                 val response: ResponseEntity<String> = login()
                 val location = response.headers["Location"]?.first() ?: ""
