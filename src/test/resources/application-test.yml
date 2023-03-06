@@ -1,7 +1,8 @@
 spring:
   main:
     allow-bean-definition-overriding: true
-
+  session:
+    timeout: 5
 logging:
   level:
     root: INFO
