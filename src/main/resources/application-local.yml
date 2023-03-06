@@ -50,6 +50,17 @@ spring:
     baseline-on-migrate: true
     user: root
     password: password
+  data:
+    redis:
+      host: localhost
+      port: 6379
+      password: redis
+  session:
+    store-type: redis
+    redis:
+      flush-mode: on_save
+      namespace: spring:session
+
 
 
 logging:
@@ -62,3 +73,4 @@ logging:
       springframework:
         security: TRACE
         web: TRACE
+        session: TRACE
