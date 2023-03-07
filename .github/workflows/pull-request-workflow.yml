@@ -16,7 +16,5 @@ jobs:
         distribution: 'temurin' # See 'Supported distributions' for available options
         java-version: '17'
         cache: gradle
-    - name: Setup Gradle
-      uses: gradle/gradle-build-action@v2
-    - name: Run build with Gradle Wrapper
-      run: ./gradlew test
+    - name: gradle build with no daemon
+      run: ./gradlew build --no-daemon
