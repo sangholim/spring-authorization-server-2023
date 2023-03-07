@@ -39,7 +39,7 @@ class SecurityConfig(
         http.exceptionHandling { exceptions ->
             exceptions
                     .authenticationEntryPoint(
-                            LoginUrlAuthenticationEntryPoint("/login"))
+                            LoginUrlAuthenticationEntryPoint("/"))
         }
         http.apply(FederatedIdentityConfigurer(clientRegistrationRepository, customerOAuth2UserService))
         http.oauth2ResourceServer { it.jwt().decoder(jwtDecoder) }
@@ -53,11 +53,11 @@ class SecurityConfig(
     fun defaultSecurityFilterChain(http: HttpSecurity): SecurityFilterChain {
         http.authorizeHttpRequests { authorize ->
             authorize
-                    .requestMatchers("/assets/**", "/webjars/**", "/", "", "/login/**").permitAll()
+                    .requestMatchers("/assets/**", "/webjars/**", "/", "", "/login/**", "/login").permitAll()
                     .anyRequest().authenticated()
         }
                 .formLogin()
-                .defaultSuccessUrl(SecurityConstants.SUCCESS_URL)
+                .defaultSuccessUrl(SecurityConstants.SUCCESS_URL, true)
                 .and()
                 .userDetailsService(userNameAndPasswordService)
                 .oauth2ResourceServer { it.jwt().decoder(jwtDecoder) }
