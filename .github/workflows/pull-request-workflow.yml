@@ -15,7 +15,7 @@ jobs:
       with:
         distribution: 'temurin' # See 'Supported distributions' for available options
         java-version: '17'
-    - name: Grant Permissions to gradlew
-      run: chmod +x gradlew
-    - name: Run Application Tests
-      run: ./gradlew clean test
+    - name: Setup Gradle
+      uses: gradle/gradle-build-action@v2
+    - name: Run build with Gradle Wrapper
+      run: ./gradlew test
