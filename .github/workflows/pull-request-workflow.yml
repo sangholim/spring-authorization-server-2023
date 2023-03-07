@@ -16,5 +16,5 @@ jobs:
         distribution: 'temurin' # See 'Supported distributions' for available options
         java-version: '17'
         cache: gradle
-    - name: gradle build with no daemon
+    - name: Build Gradlew with no daemon
       run: ./gradlew build --no-daemon
