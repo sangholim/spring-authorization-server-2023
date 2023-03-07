@@ -1,6 +1,5 @@
 /.gradle/
 /.idea/
 /build/
-/gradle/wrapper/
 /data/postgres/
 /data/redis/
