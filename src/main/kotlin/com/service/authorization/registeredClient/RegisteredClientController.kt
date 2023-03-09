@@ -1,14 +1,17 @@
 package com.service.authorization.registeredClient
 
 import org.springframework.stereotype.Controller
+import org.springframework.ui.Model
 import org.springframework.web.bind.annotation.GetMapping
-import org.springframework.web.servlet.ModelAndView
 
 @Controller
-class RegisteredClientController {
+class RegisteredClientController(
+        private val registeredClientService: RegisteredClientService
+) {
 
     @GetMapping("/register-client")
-    fun getView(modelAndView: ModelAndView): String {
+    fun getView(model: Model): String {
+        model.addAttribute("clients", registeredClientService.getBy().map { it.toView() })
         return "register-client/main"
     }
 }
