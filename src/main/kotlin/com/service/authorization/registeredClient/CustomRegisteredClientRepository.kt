@@ -23,7 +23,12 @@ class CustomRegisteredClientRepository(jdbcOperations: JdbcOperations) : JdbcReg
 
     private val LOAD_REGISTERED_CLIENT_SQL = "SELECT $COLUMN_NAMES FROM $TABLE_NAME "
 
+    private val DELETE_ALL = "DELETE FROM $TABLE_NAME"
     fun findBy(): List<RegisteredClient> {
         return jdbcOperations.query(LOAD_REGISTERED_CLIENT_SQL, registeredClientRowMapper)
+    }
+
+    fun deleteAll() {
+        jdbcOperations.update(DELETE_ALL)
     }
 }
