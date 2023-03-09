@@ -2,14 +2,40 @@
 <html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org">
 <head th:replace="head/head::head"></head>
 <body>
-<div class="container">
+<div class="container-fluid">
     <div class="row border">
         헤더
     </div>
     <div class="row">
         <div th:replace="menu/menu::menu"></div>
-        <div class="col-xs-9 col-sm-9 col-md-9 col-lg-9 vh-100 border ">
-            <div class="row">registered client</div>
+
+        <div class="overflow-auto col-xs-9 col-sm-9 col-md-9 col-lg-9 vh-100 border ">
+            <table class="table table-bordered table-hover">
+                <thead>
+                <tr>
+                    <th><span>id</span></th>
+                    <th><span>client-id</span></th>
+                    <th><span>client-name</span></th>
+                    <th><span>client-secret</span></th>
+                    <th><span>client-authentication-methods</span></th>
+                    <th><span>authorization-grant-types</span></th>
+                    <th><span>redirect-uris</span></th>
+                    <th><span>scopes</span></th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="client : ${clients}">
+                    <td> <span class="d-inline-block text-truncate" th:text="${client.id}" style="max-width: 150px;"></span></td>
+                    <td> <span class="d-inline-block text-truncate" th:text="${client.clientId}" style="max-width: 150px;"></span></td>
+                    <td> <span class="d-inline-block text-truncate" th:text="${client.clientName}" style="max-width: 150px;"></span></td>
+                    <td> <span class="d-inline-block text-truncate" th:text="${client.clientSecret}"> </span></td>
+                    <td> <span class="d-inline-block text-truncate" th:text="${client.clientAuthenticationMethods}" style="max-width: 150px;"></span></td>
+                    <td> <span class="d-inline-block text-truncate" th:text="${client.authorizationGrantTypes}" style="max-width: 150px;"></span></td>
+                    <td> <span class="d-inline-block text-truncate" th:text="${client.redirectUris}" style="max-width: 150px;"></span></td>
+                    <td> <span class="d-inline-block text-truncate" th:text="${client.scopes}" style="max-width: 150px;"></span></td>
+                </tr>
+                </tbody>
+            </table>
         </div>
     </div>
     <div class="row border">Footer</div>
