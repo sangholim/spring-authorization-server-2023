@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org">
+<head th:replace="head/head::head"></head>
+<body>
+<div class="container">
+    <div class="row border">
+        헤더
+    </div>
+    <div class="row">
+        <div th:replace="menu/menu::menu"></div>
+        <div class="col-xs-9 col-sm-9 col-md-9 col-lg-9 vh-100 border ">
+            <div class="row">registered client</div>
+        </div>
+    </div>
+    <div class="row border">Footer</div>
+</div>
+</body>
