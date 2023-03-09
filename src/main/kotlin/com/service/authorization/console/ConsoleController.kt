@@ -10,9 +10,9 @@ class ConsoleController {
 
     private val logger = LoggerFactory.getLogger(this.javaClass)
 
-    @GetMapping("/console/frame")
-    fun frame(authentication: Authentication): String {
+    @GetMapping("/console")
+    fun getView(authentication: Authentication): String {
         logger.debug("auth: $authentication")
-        return "main"
+        return "console/main"
     }
 }

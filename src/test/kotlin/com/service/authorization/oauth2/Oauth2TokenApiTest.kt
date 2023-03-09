@@ -5,6 +5,8 @@ import com.service.authorization.client.oauth2Authorize
 import com.service.authorization.client.oauth2Token
 import com.service.authorization.config.TestSecurityConfig
 import com.service.authorization.htpHeader.encodedSessionId
+import com.service.authorization.registeredClient.CustomRegisteredClientRepository
+import com.service.authorization.registeredClient.RegisteredClientConstants
 import com.service.authorization.registeredClient.parseClientSecret
 import io.kotest.core.spec.style.BehaviorSpec
 import io.kotest.matchers.collections.shouldNotBeEmpty
@@ -17,7 +19,6 @@ import org.springframework.boot.test.web.client.TestRestTemplate
 import org.springframework.boot.test.web.server.LocalServerPort
 import org.springframework.security.oauth2.core.OAuth2AccessToken
 import org.springframework.security.oauth2.core.oidc.endpoint.OidcParameterNames.ID_TOKEN
-import org.springframework.security.oauth2.server.authorization.client.RegisteredClientRepository
 import org.springframework.security.oauth2.server.authorization.settings.AuthorizationServerSettings
 
 @SpringBootTest(
@@ -27,18 +28,23 @@ import org.springframework.security.oauth2.server.authorization.settings.Authori
 class Oauth2TokenApiTest(
         @LocalServerPort
         private val port: Int,
-        private val registeredClientRepository: RegisteredClientRepository,
-        private val authorizationServerSettings: AuthorizationServerSettings
+        private val registeredClientRepository: CustomRegisteredClientRepository,
+        private val authorizationServerSettings: AuthorizationServerSettings,
 ) : BehaviorSpec({
-    val restTemplate = TestRestTemplate()
-    val clientId = "public-client"
-    val clientSecret = registeredClientRepository.findByClientId(clientId)?.parseClientSecret()
-    val redirectUrl = registeredClientRepository.findByClientId(clientId)?.redirectUris?.first()
-    val authorizeUrl = "${authorizationServerSettings.issuer}/${authorizationServerSettings.authorizationEndpoint}"
-    val tokenUrl = "${authorizationServerSettings.issuer}/${authorizationServerSettings.tokenEndpoint}"
+    beforeSpec {
+        registeredClientRepository.deleteAll()
+        registeredClientRepository.save(RegisteredClientConstants.defaultClient)
+    }
 
     Given("oauth2 토큰 발급 (OIDC)") {
         When("토큰 발급 성공한 경우") {
+            val restTemplate = TestRestTemplate()
+            val clientId = "public-client"
+            val clientSecret = registeredClientRepository.findByClientId(clientId)?.parseClientSecret()
+            val redirectUrl = registeredClientRepository.findByClientId(clientId)?.redirectUris?.first()
+            val authorizeUrl = "${authorizationServerSettings.issuer}/${authorizationServerSettings.authorizationEndpoint}"
+            val tokenUrl = "${authorizationServerSettings.issuer}/${authorizationServerSettings.tokenEndpoint}"
+
             Then("access token 발급") {
                 val session = restTemplate.login(port = port).headers.encodedSessionId()
                 val code = restTemplate.oauth2Authorize(session, clientId, authorizeUrl, redirectUrl).headers.location.shouldNotBeNull()

@@ -1,13 +1,12 @@
-package com.service.authorization.client
+package com.service.authorization.registeredClient
 
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
+import org.springframework.jdbc.core.JdbcOperations
 import org.springframework.security.oauth2.core.AuthorizationGrantType
 import org.springframework.security.oauth2.core.ClientAuthenticationMethod
 import org.springframework.security.oauth2.core.oidc.OidcScopes
-import org.springframework.security.oauth2.server.authorization.client.InMemoryRegisteredClientRepository
 import org.springframework.security.oauth2.server.authorization.client.RegisteredClient
-import org.springframework.security.oauth2.server.authorization.client.RegisteredClientRepository
 import org.springframework.security.oauth2.server.authorization.settings.ClientSettings
 import java.util.*
 
@@ -16,7 +15,7 @@ import java.util.*
 class RegisteredClientConfig {
 
     @Bean
-    fun registeredClientRepository(): RegisteredClientRepository? {
+    fun registeredClientRepository(jdbcOperations: JdbcOperations): CustomRegisteredClientRepository? {
         val registeredClient = RegisteredClient.withId(UUID.randomUUID().toString())
                 .clientId("public-client")
                 .clientSecret("{noop}public-secret")
@@ -31,6 +30,6 @@ class RegisteredClientConfig {
                 .scope("message.write")
                 .clientSettings(ClientSettings.builder().requireAuthorizationConsent(true).build())
                 .build()
-        return InMemoryRegisteredClientRepository(registeredClient)
+        return CustomRegisteredClientRepository(jdbcOperations)
     }
 }
