@@ -8,8 +8,7 @@ import org.springframework.web.bind.annotation.GetMapping
 class RegisteredClientController(
         private val registeredClientService: RegisteredClientService
 ) {
-
-    @GetMapping("/register-client")
+    @GetMapping("/register-clients")
     fun getView(model: Model): String {
         model.addAttribute("clients", registeredClientService.getBy().map { it.toView() })
         return "register-client/main"
