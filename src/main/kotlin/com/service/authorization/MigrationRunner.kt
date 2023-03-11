@@ -38,7 +38,6 @@ class MigrationRunner(
                 .clientAuthenticationMethod(ClientAuthenticationMethod.CLIENT_SECRET_BASIC)
                 .authorizationGrantType(AuthorizationGrantType.AUTHORIZATION_CODE)
                 .authorizationGrantType(AuthorizationGrantType.REFRESH_TOKEN)
-                .authorizationGrantType(AuthorizationGrantType.CLIENT_CREDENTIALS)
                 .redirectUri("https://oauthdebugger.com/debug")
                 .scope(OidcScopes.OPENID)
                 .scope(OidcScopes.PROFILE)
