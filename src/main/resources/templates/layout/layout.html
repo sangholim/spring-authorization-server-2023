@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html xmlns:th="https://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+<head th:replace="head/head::head"></head>
+<body>
+<div class="container-fluid">
+    <div class="row border">
+        헤더
+    </div>
+    <div class="row">
+        <div th:replace="menu/menu::menu"></div>
+
+        <div layout:fragment="content" class="overflow-auto col-xs-10 col-sm-10 col-md-10 col-lg-10 vh-100 border p-5">
+                컨텐츠를 넣어주세요
+        </div>
+    </div>
+    <div class="row border">Footer</div>
+</div>
+</body>
