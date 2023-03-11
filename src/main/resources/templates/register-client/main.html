@@ -1,41 +1,29 @@
 <!DOCTYPE html>
-<html lang="en" xmlns="http://www.w3.org/1101010/xhtml" xmlns:th="https://www.thymeleaf.org">
-<head th:replace="head/head::head"></head>
-<body>
-<div class="container-fluid">
-    <div class="row border">
-        헤더
-    </div>
-    <div class="row">
-        <div th:replace="menu/menu::menu"></div>
-
-        <div class="overflow-auto col-xs-10 col-sm-10 col-md-10 col-lg-10 vh-100 border ">
-            <table class="table table-bordered table-hover">
-                <thead>
-                <tr>
-                    <th><span>id</span></th>
-                    <th><span>client-id</span></th>
-                    <th><span>client-name</span></th>
-                    <th><span>authorization-grant-types</span></th>
-                    <th><span>scopes</span></th>
-                </tr>
-                </thead>
-                <tbody>
-                <tr th:each="client : ${clients}">
-                    <td>
-                        <a th:href="@{/register-clients/{id}(id = ${client.id})}">
-                            <span class="d-inline-block text-truncate" th:text="${client.id}" style="max-width: 150px;"></span>
-                        </a>
-                    </td>
-                    <td><span class="d-inline-block text-truncate" th:text="${client.clientId}" style="max-width: 150px;"></span></td>
-                    <td><span class="d-inline-block text-truncate" th:text="${client.clientName}" style="max-width: 150px;"></span></td>
-                    <td><span class="d-inline-block text-truncate" th:text="${client.authorizationGrantTypes}" style="max-width: 150px;"></span></td>
-                    <td><span class="d-inline-block text-truncate" th:text="${client.scopes}" style="max-width: 150px;"></span></td>
-                </tr>
-                </tbody>
-            </table>
-        </div>
-    </div>
-    <div class="row border">Footer</div>
+<html xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{layout/layout}">
+<div layout:fragment="content">
+    <table class="table table-bordered table-hover">
+        <thead>
+        <tr>
+            <th><span>id</span></th>
+            <th><span>client-id</span></th>
+            <th><span>client-name</span></th>
+            <th><span>authorization-grant-types</span></th>
+            <th><span>scopes</span></th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="client : ${clients}">
+            <td>
+                <a th:href="@{/register-clients/{id}(id = ${client.id})}">
+                    <span class="d-inline-block text-truncate" th:text="${client.id}" style="max-width: 150px;"></span>
+                </a>
+            </td>
+            <td><span class="d-inline-block text-truncate" th:text="${client.clientId}" style="max-width: 150px;"></span></td>
+            <td><span class="d-inline-block text-truncate" th:text="${client.clientName}" style="max-width: 150px;"></span></td>
+            <td><span class="d-inline-block text-truncate" th:text="${client.authorizationGrantTypes}" style="max-width: 150px;"></span></td>
+            <td><span class="d-inline-block text-truncate" th:text="${client.scopes}" style="max-width: 150px;"></span></td>
+        </tr>
+        </tbody>
+    </table>
 </div>
-</body>
+</html>

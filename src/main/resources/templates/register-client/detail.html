@@ -1,60 +1,48 @@
 <!DOCTYPE html>
-<html lang="en" xmlns="http://www.w3.org/1101010/xhtml" xmlns:th="https://www.thymeleaf.org">
-<head th:replace="head/head::head"></head>
-<body>
-<div class="container-fluid">
-    <div class="row border">
-        헤더
-    </div>
-    <div class="row">
-        <div th:replace="menu/menu::menu"></div>
-
-        <div th:fragment="content-layout" class="overflow-auto col-xs-10 col-sm-10 col-md-10 col-lg-10 vh-100 border ">
-            <form th:fragment="register-client-form">
-                <div class="mb-3 row">
-                    <label class="form-label" for="id">id</label>
-                    <input type="id" class="form-control" id="id" th:value="${client.id}" readonly>
-                </div>
-                <div class="mb-3 row">
-                    <label class="form-label" for="clientId">client-id</label>
-                    <input type="clientId" class="form-control" id="clientId" th:value="${client.clientId}">
-                </div>
-                <div class="mb-3 row">
-                    <label class="form-label" for="clientIdIssuedAt">client-id-issued-at</label>
-                    <input type="clientIdIssuedAt" class="form-control" id="clientIdIssuedAt" th:value="${client.clientIdIssuedAt}">
-                </div>
-                <div class="mb-3 row">
-                    <label class="form-label" for="clientSecret">client-secret</label>
-                    <input type="clientSecret" class="form-control" id="clientSecret" th:value="${client.clientSecret}">
-                </div>
-                <div class="mb-3 row">
-                    <label class="form-label" for="clientSecretExpiresAt">client-secret-expires-at</label>
-                    <input type="clientSecretExpiresAt" class="form-control" id="clientSecretExpiresAt" th:value="${client.clientSecretExpiresAt}">
-                </div>
-                <div class="mb-3 row">
-                    <label class="form-label" for="clientName">client-name</label>
-                    <input type="clientName" class="form-control" id="clientName" th:value="${client.clientName}">
-                </div>
-                <div class="mb-3 row">
-                    <label class="form-label" for="clientAuthenticationMethods">client-authentication-methods</label>
-                    <textarea class="form-control" id="clientAuthenticationMethods" rows="3" th:text="${#strings.listJoin(client.clientAuthenticationMethods, '&#13;&#10;')}"></textarea>
-                </div>
-                <div class="mb-3 row">
-                    <label class="form-label" for="authorizationGrantTypes">authorization-grant-types</label>
-                    <textarea class="form-control" id="authorizationGrantTypes" rows="3" th:text="${#strings.listJoin(client.authorizationGrantTypes, '&#13;&#10;')}"></textarea>
-                </div>
-                <div class="mb-3 row">
-                    <label class="form-label" for="redirectUris">redirect-uris</label>
-                    <textarea class="form-control" id="redirectUris" rows="3" th:text="${#strings.listJoin(client.redirectUris, '&#13;&#10;')}"></textarea>
-                </div>
-                <div class="mb-3 row">
-                    <label class="form-label" for="scopes">scopes</label>
-                    <textarea class="form-control" id="scopes" rows="3" th:text="${#strings.listJoin(client.scopes, '&#13;&#10;')}"></textarea>
-                </div>
-                <button type="submit" class="btn btn-primary">저장</button>
-            </form>
+<html xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{layout/layout}">
+<div layout:fragment="content">
+    <form>
+        <div class="mb-3 row">
+            <label class="form-label" for="id">id</label>
+            <input type="id" class="form-control" id="id" th:value="${client.id}" readonly>
         </div>
-    </div>
-    <div class="row border">Footer</div>
+        <div class="mb-3 row">
+            <label class="form-label" for="clientId">client-id</label>
+            <input type="clientId" class="form-control" id="clientId" th:value="${client.clientId}">
+        </div>
+        <div class="mb-3 row">
+            <label class="form-label" for="clientIdIssuedAt">client-id-issued-at</label>
+            <input type="clientIdIssuedAt" class="form-control" id="clientIdIssuedAt" th:value="${client.clientIdIssuedAt}">
+        </div>
+        <div class="mb-3 row">
+            <label class="form-label" for="clientSecret">client-secret</label>
+            <input type="clientSecret" class="form-control" id="clientSecret" th:value="${client.clientSecret}">
+        </div>
+        <div class="mb-3 row">
+            <label class="form-label" for="clientSecretExpiresAt">client-secret-expires-at</label>
+            <input type="clientSecretExpiresAt" class="form-control" id="clientSecretExpiresAt" th:value="${client.clientSecretExpiresAt}">
+        </div>
+        <div class="mb-3 row">
+            <label class="form-label" for="clientName">client-name</label>
+            <input type="clientName" class="form-control" id="clientName" th:value="${client.clientName}">
+        </div>
+        <div class="mb-3 row">
+            <label class="form-label" for="clientAuthenticationMethods">client-authentication-methods</label>
+            <textarea class="form-control" id="clientAuthenticationMethods" rows="3" th:text="${#strings.listJoin(client.clientAuthenticationMethods, '&#13;&#10;')}"></textarea>
+        </div>
+        <div class="mb-3 row">
+            <label class="form-label" for="authorizationGrantTypes">authorization-grant-types</label>
+            <textarea class="form-control" id="authorizationGrantTypes" rows="3" th:text="${#strings.listJoin(client.authorizationGrantTypes, '&#13;&#10;')}"></textarea>
+        </div>
+        <div class="mb-3 row">
+            <label class="form-label" for="redirectUris">redirect-uris</label>
+            <textarea class="form-control" id="redirectUris" rows="3" th:text="${#strings.listJoin(client.redirectUris, '&#13;&#10;')}"></textarea>
+        </div>
+        <div class="mb-3 row">
+            <label class="form-label" for="scopes">scopes</label>
+            <textarea class="form-control" id="scopes" rows="3" th:text="${#strings.listJoin(client.scopes, '&#13;&#10;')}"></textarea>
+        </div>
+        <button type="submit" class="btn btn-primary">저장</button>
+    </form>
 </div>
-</body>
+</html>

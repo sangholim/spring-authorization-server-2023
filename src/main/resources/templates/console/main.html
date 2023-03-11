@@ -1,17 +1,6 @@
 <!DOCTYPE html>
-<html lang="en" xmlns="http://www.w3.org/1101010/xhtml" xmlns:th="https://www.thymeleaf.org">
-<head th:replace="head/head::head"></head>
-<body>
-<div class="container-fluid">
-    <div class="row border">
-        헤더
-    </div>
-    <div class="row">
-        <div th:replace="menu/menu::menu"></div>
-        <div class="overflow-auto col-xs-10 col-sm-10 col-md-10 col-lg-10 vh-100 border ">
-            <div class="row">오른쪽</div>
-        </div>
-    </div>
-    <div class="row border">Footer</div>
+<html xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{layout/layout}">
+<div layout:fragment="content">
+    콘솔 메인
 </div>
-</body>
+</html>
