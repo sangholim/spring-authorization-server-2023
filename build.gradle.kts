@@ -1,4 +1,5 @@
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
+import org.springframework.boot.gradle.tasks.bundling.BootBuildImage
 
 plugins {
     id("org.springframework.boot") version "3.0.2"
@@ -64,4 +65,17 @@ tasks.withType<KotlinCompile> {
 
 tasks.withType<Test> {
     useJUnitPlatform()
+}
+
+tasks.named<BootBuildImage>("bootBuildImage") {
+    val dockerUsername = System.getenv("DOCKER_USERNAME")
+    val imageName = System.getenv("IMAGE_NAME")
+    this.imageName.set(imageName)
+    publish.set(true)
+    docker {
+        publishRegistry {
+            username.set(dockerUsername)
+            password.set(System.getenv("DOCKER_PASSWORD"))
+        }
+    }
 }
