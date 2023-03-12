@@ -29,6 +29,7 @@ class RegisteredClientController(
 
     @PostMapping("/register-clients", consumes = [MediaType.APPLICATION_FORM_URLENCODED_VALUE])
     fun create(payload: RegisteredClientCreationPayload): String {
+        registeredClientService.save(payload)
         return "redirect:register-clients"
     }
 }
