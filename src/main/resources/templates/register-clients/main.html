@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{layout/layout}">
 <div layout:fragment="content">
-    <a class="btn btn-primary" href="/register-clients/views/creation" role="button">추가</a>
+    <a class="btn btn-primary" href="/console/register-clients/views/creation" role="button">추가</a>
     <table class="table table-bordered table-hover">
         <thead>
         <tr>
@@ -15,7 +15,7 @@
         <tbody>
         <tr th:each="client : ${clients}">
             <td>
-                <a th:href="@{/register-clients/{id}(id = ${client.id})}">
+                <a th:href="@{/console/register-clients/{id}(id = ${client.id})}">
                     <span class="d-inline-block text-truncate" th:text="${client.id}" style="max-width: 150px;"></span>
                 </a>
             </td>
