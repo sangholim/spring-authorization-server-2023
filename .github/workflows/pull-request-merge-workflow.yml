@@ -26,4 +26,4 @@ jobs:
           context: .
           file: ./Dockerfile
           push: true
-          tags: ${{ secrets.DOCKERHUB_USERNAME }}/authorization-servier-2023:latest
+          tags: ${{ secrets.DOCKERHUB_USERNAME }}/authorization-server-2023:latest
