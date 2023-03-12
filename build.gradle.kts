@@ -1,4 +1,5 @@
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
+import org.springframework.boot.gradle.tasks.bundling.BootBuildImage
 
 plugins {
     id("org.springframework.boot") version "3.0.2"
@@ -64,4 +65,14 @@ tasks.withType<KotlinCompile> {
 
 tasks.withType<Test> {
     useJUnitPlatform()
+}
+
+tasks.named<BootBuildImage>("bootBuildImage") {
+    publish.set(true)
+    docker {
+        publishRegistry {
+            username.set(System.getProperty("secrets.DOCKERHUB_USERNAME"))
+            password.set(System.getProperty("secrets.DOCKERHUB_TOKEN "))
+        }
+    }
 }
