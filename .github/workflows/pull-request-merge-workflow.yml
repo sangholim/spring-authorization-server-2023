@@ -1,9 +1,9 @@
 name: pull request merge workflow
 
 on:
-  pull_request:
-    types:
-      - closed
+  push:
+    branches:
+      - main
 
 jobs:
   if_merged:
