@@ -2,7 +2,7 @@ name: pull request merge workflow
 
 on:
   pull_request:
-#    types: [closed]
+    types: [closed]
     branches:
       - main
 
