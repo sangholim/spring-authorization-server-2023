@@ -37,16 +37,16 @@ class CustomOAuth2UserService(
         return DefaultOidcUser(userRoles, userRequest.idToken)
     }
 
-    fun findUser(subject: String): UserDTO {
+    fun findUser(subject: String): UserDTO? {
         userService.getById(subject)?.let {
             return it.toDTO()
         }
-        val federatedUser = userFederatedIdentityService.getBy(subject) ?: throw Exception("not found subject")
+        val federatedUser = userFederatedIdentityService.getBy(subject) ?: return null
         return userService.getById(federatedUser.userId)?.toDTO() ?: throw Exception("not found user")
     }
 
-    fun oidcUser(username: String): Map<String, Any> {
-        val user = findUser(username)
+    fun oidcUser(username: String): Map<String, Any>? {
+        val user = findUser(username) ?: return null
 
         return OidcUserInfo.builder()
                 .subject(user.id)
