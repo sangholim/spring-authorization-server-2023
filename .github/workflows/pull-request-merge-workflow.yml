@@ -10,7 +10,7 @@ jobs:
     if: github.event.pull_request.merged == true
     runs-on: ubuntu-latest
     steps:
-      - name: check out
+      - name: github repository check out
         uses: actions/checkout@v3
       - name: Set up Docker QEMU
         uses: docker/setup-qemu-action@v2
