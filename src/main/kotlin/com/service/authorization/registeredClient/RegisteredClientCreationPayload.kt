@@ -15,7 +15,7 @@ data class RegisteredClientCreationPayload(
         /**
          * 인증 방식
          */
-        val clientAuthenticationMethods: Set<String> = mutableSetOf(),
+        val clientAuthenticationMethod: String,
         /**
          * 승인 타입
          */
@@ -23,9 +23,9 @@ data class RegisteredClientCreationPayload(
         /**
          * redirect-url 리스트
          */
-        val redirectUris: String?,
+        val redirectUris: Set<String> = mutableSetOf(),
         /**
          * 접근 가능한 회원 범위를 지정
          */
-        val scopes: String?
+        val scopes: Set<String> = mutableSetOf(),
 )
