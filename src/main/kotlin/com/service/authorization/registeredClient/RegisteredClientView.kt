@@ -10,7 +10,7 @@ data class RegisteredClientView(
         val clientAuthenticationMethods: String?,
         val authorizationGrantTypes: String?,
         val redirectUris: String,
-        val scopes: String
+        val scopes: String?
 )
 
 fun RegisteredClient.toView() = RegisteredClientView(
@@ -21,5 +21,5 @@ fun RegisteredClient.toView() = RegisteredClientView(
         clientAuthenticationMethods = clientAuthenticationMethods.joinToString(separator = ",") { it.value },
         authorizationGrantTypes = authorizationGrantTypes.joinToString(separator = ",") { it.value },
         redirectUris = redirectUris.joinToString(separator = ","),
-        scopes = scopes.joinToString(separator = ",")
+        scopes = scopes?.joinToString(separator = ",")
 )

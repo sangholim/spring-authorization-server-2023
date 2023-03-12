@@ -11,25 +11,25 @@ import org.springframework.web.bind.annotation.PostMapping
 class RegisteredClientController(
         private val registeredClientService: RegisteredClientService
 ) {
-    @GetMapping("/register-clients")
+    @GetMapping("/console/register-clients")
     fun getView(model: Model): String {
         model.addAttribute("clients", registeredClientService.getAllBy().map { it.toView() })
         return "register-clients/main"
     }
 
-    @GetMapping("/register-clients/{id}")
+    @GetMapping("/console/register-clients/{id}")
     fun getDetailView(@PathVariable id: String, model: Model): String {
         model.addAttribute("client", registeredClientService.getBy(id).toDetalView())
         return "register-clients/detail"
     }
 
-    @GetMapping("/register-clients/views/creation")
+    @GetMapping("/console/register-clients/views/creation")
     fun getCreateView(): String =
             "register-clients/creation"
 
-    @PostMapping("/register-clients", consumes = [MediaType.APPLICATION_FORM_URLENCODED_VALUE])
+    @PostMapping("/console/register-clients", consumes = [MediaType.APPLICATION_FORM_URLENCODED_VALUE])
     fun create(payload: RegisteredClientCreationPayload): String {
         registeredClientService.save(payload)
-        return "redirect:register-clients"
+        return "redirect:/console/register-clients"
     }
 }
