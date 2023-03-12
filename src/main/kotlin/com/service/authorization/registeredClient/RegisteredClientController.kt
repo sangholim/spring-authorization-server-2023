@@ -12,12 +12,16 @@ class RegisteredClientController(
     @GetMapping("/register-clients")
     fun getView(model: Model): String {
         model.addAttribute("clients", registeredClientService.getAllBy().map { it.toView() })
-        return "register-client/main"
+        return "register-clients/main"
     }
 
     @GetMapping("/register-clients/{id}")
     fun getDetailView(@PathVariable id: String, model: Model): String {
         model.addAttribute("client", registeredClientService.getBy(id).toDetalView())
-        return "register-client/detail"
+        return "register-clients/detail"
     }
+
+    @GetMapping("/register-clients/views/creation")
+    fun getCreateView(): String =
+            "register-clients/creation"
 }
