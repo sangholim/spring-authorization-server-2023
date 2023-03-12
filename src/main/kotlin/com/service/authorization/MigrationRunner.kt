@@ -26,6 +26,7 @@ class MigrationRunner(
                 .username("user")
                 .password("password")
                 .roles("USER")
+                .roles("ADMIN")
                 .build()
         if (userService.getBy(userDetails.username) != null) {
             return
@@ -51,6 +52,7 @@ class MigrationRunner(
                         .clientSecret("{noop}internal-client-secret")
                         .clientAuthenticationMethod(ClientAuthenticationMethod.CLIENT_SECRET_BASIC)
                         .authorizationGrantType(AuthorizationGrantType.CLIENT_CREDENTIALS)
+                        .redirectUri("https://oauthdebugger.com/debug")
                         .clientSettings(ClientSettings.builder().requireAuthorizationConsent(true).build())
                         .build()
                 )
