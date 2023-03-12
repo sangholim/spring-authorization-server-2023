@@ -68,7 +68,7 @@ tasks.withType<Test> {
 }
 
 tasks.named<BootBuildImage>("bootBuildImage") {
-    val dockerUsername = System.getenv("DOCKERHUB_USERNAME")
+    val dockerUsername = System.getenv("DOCKER_USERNAME")
     val imageName = System.getenv("IMAGE_NAME")
     this.imageName.set(imageName)
     publish.set(true)
