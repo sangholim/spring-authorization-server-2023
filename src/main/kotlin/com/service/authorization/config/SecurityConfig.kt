@@ -1,5 +1,6 @@
 package com.service.authorization.config
 
+import com.service.authorization.config.SecurityConstants.ROLE_ADMIN
 import com.service.authorization.federatedIdentity.FederatedIdentityConfigurer
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
@@ -54,6 +55,7 @@ class SecurityConfig(
         http.authorizeHttpRequests { authorize ->
             authorize
                     .requestMatchers("/assets/**", "/webjars/**", "/", "", "/login/**", "/login").permitAll()
+                    .requestMatchers("/console/**").hasAnyAuthority(ROLE_ADMIN)
                     .anyRequest().authenticated()
         }
                 .formLogin()

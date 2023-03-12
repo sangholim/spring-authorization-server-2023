@@ -26,6 +26,7 @@ class MigrationRunner(
                 .username("user")
                 .password("password")
                 .roles("USER")
+                .roles("ADMIN")
                 .build()
         if (userService.getBy(userDetails.username) != null) {
             return
