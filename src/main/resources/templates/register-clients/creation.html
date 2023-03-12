@@ -7,25 +7,25 @@
         </p>
     </div>
 
-    <form>
+    <form th:action="@{/register-clients}" method="post">
         <div class="mb-3 row">
             <label class="form-label" for="clientId">client-id</label>
-            <input type="clientId" class="form-control" id="clientId">
+            <input type="text" name="clientId" class="form-control" id="clientId">
         </div>
         <div class="mb-3 row">
             <label class="form-label" for="clientSecret">client-secret</label>
-            <input type="clientSecret" class="form-control" id="clientSecret">
+            <input type="text" name="clientSecret" class="form-control" id="clientSecret">
         </div>
         <div class="mb-3 row">
             <label class="form-label" for="clientAuthenticationMethods">client-authentication-methods</label>
             <div class="form-check">
-                <input class="form-check-input" name="clientAuthenticationMethods" type="checkbox" value="" id="client_secret_basic">
+                <input class="form-check-input" name="clientAuthenticationMethods" type="checkbox" value="client_secret_basic" id="client_secret_basic">
                 <label class="form-check-label" for="client_secret_basic">
                     client_secret_basic
                 </label>
             </div>
             <div class="form-check">
-                <input class="form-check-input" name="clientAuthenticationMethods" type="checkbox" value="" id="client_secret_post">
+                <input class="form-check-input" name="clientAuthenticationMethods" type="checkbox" value="client_secret_post" id="client_secret_post">
                 <label class="form-check-label" for="client_secret_post">
                     client_secret_post
                 </label>
@@ -34,19 +34,19 @@
         <div class="mb-3 row">
             <label class="form-label">authorization-grant-types</label>
             <div class="form-check">
-                <input class="form-check-input" name="authorizationGrantTypes" type="checkbox" value="" id="authorization_code">
+                <input class="form-check-input" name="authorizationGrantTypes" type="checkbox" value="authorization_code" id="authorization_code">
                 <label class="form-check-label" for="authorization_code">
                     authorization_code
                 </label>
             </div>
             <div class="form-check">
-                <input class="form-check-input" name="authorizationGrantTypes" type="checkbox" value="" id="refresh_token">
+                <input class="form-check-input" name="authorizationGrantTypes" type="checkbox" value="refresh_token" id="refresh_token">
                 <label class="form-check-label" for="refresh_token">
                     refresh_token
                 </label>
             </div>
             <div class="form-check">
-                <input class="form-check-input" name="authorizationGrantTypes" type="checkbox" value="" id="client_credentials">
+                <input class="form-check-input" name="authorizationGrantTypes" type="checkbox" value="client_credentials" id="client_credentials">
                 <label class="form-check-label" for="client_credentials">
                     client_credentials
                 </label>
@@ -54,11 +54,11 @@
         </div>
         <div class="mb-3 row">
             <label class="form-label" for="redirectUris">redirect-uris</label>
-            <textarea class="form-control" id="redirectUris" rows="3"></textarea>
+            <textarea class="form-control" name="redirectUris" id="redirectUris" rows="3"></textarea>
         </div>
         <div class="mb-3 row">
             <label class="form-label" for="scopes">scopes</label>
-            <textarea class="form-control" id="scopes" rows="3"></textarea>
+            <textarea class="form-control" name="scopes" id="scopes" rows="3"></textarea>
         </div>
         <button type="submit" class="btn btn-primary">저장</button>
     </form>
