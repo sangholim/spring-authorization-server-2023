@@ -1,9 +1,11 @@
 package com.service.authorization.registeredClient
 
+import org.springframework.http.MediaType
 import org.springframework.stereotype.Controller
 import org.springframework.ui.Model
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PathVariable
+import org.springframework.web.bind.annotation.PostMapping
 
 @Controller
 class RegisteredClientController(
@@ -24,4 +26,9 @@ class RegisteredClientController(
     @GetMapping("/register-clients/views/creation")
     fun getCreateView(): String =
             "register-clients/creation"
+
+    @PostMapping("/register-clients", consumes = [MediaType.APPLICATION_FORM_URLENCODED_VALUE])
+    fun create(payload: RegisteredClientCreationPayload): String {
+        return "redirect:register-clients"
+    }
 }
