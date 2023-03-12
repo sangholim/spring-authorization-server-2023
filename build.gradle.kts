@@ -68,14 +68,14 @@ tasks.withType<Test> {
 }
 
 tasks.named<BootBuildImage>("bootBuildImage") {
-    val dockerUsername = System.getProperty("secrets.DOCKERHUB_USERNAME")
-    val repo = System.getProperty("secrets.DOCKER_REPO")
-    this.imageName.set(dockerUsername + "/" + repo + ":latest")
+    val dockerUsername = System.getenv("secrets.DOCKERHUB_USERNAME")
+    val repo = System.getenv("secrets.DOCKER_REPO")
+    this.imageName.set("$dockerUsername/$repo:latest")
     publish.set(true)
     docker {
         publishRegistry {
             username.set(dockerUsername)
-            password.set(System.getProperty("secrets.DOCKERHUB_TOKEN"))
+            password.set(System.getenv("secrets.DOCKERHUB_TOKEN"))
         }
     }
 }
