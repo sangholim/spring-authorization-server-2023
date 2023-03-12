@@ -16,7 +16,9 @@ class TokenCustomizer(
         val type = context.tokenType
         if (OAuth2TokenType.ACCESS_TOKEN.equals(type)) {
             context.claims.claims { claim ->
-                claim["sub"] = customOAuth2UserService.findUser(subject).id
+                customOAuth2UserService.findUser(subject)?.run {
+                    claim["sub"] = this.id
+                }
             }
         }
 
