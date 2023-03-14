@@ -1,6 +1,6 @@
 package com.service.authorization.config
 
-import org.springframework.boot.autoconfigure.web.ServerProperties
+import org.springframework.boot.context.properties.EnableConfigurationProperties
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
 import org.springframework.jdbc.core.JdbcTemplate
@@ -10,15 +10,16 @@ import org.springframework.security.oauth2.server.authorization.client.Registere
 import org.springframework.security.oauth2.server.authorization.settings.AuthorizationServerSettings
 
 @Configuration
+@EnableConfigurationProperties(AuthorizationProperties::class)
 class AuthorizationConfig {
 
     /**
      * 인증 서버 승인 end-point 설정
      */
     @Bean
-    fun authorizationServerSettings(serverProperties: ServerProperties): AuthorizationServerSettings {
+    fun authorizationServerSettings(authorizationProperties: AuthorizationProperties): AuthorizationServerSettings {
         return AuthorizationServerSettings.builder()
-                .issuer("http://localhost:${serverProperties.port}")
+                .issuer(authorizationProperties.issuer)
                 .authorizationEndpoint("/oauth2/v1/authorize")
                 .tokenEndpoint("/oauth2/v1/token")
                 .tokenIntrospectionEndpoint("/oauth2/v1/introspect")
