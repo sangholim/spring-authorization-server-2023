@@ -61,7 +61,8 @@ spring:
       flush-mode: on_save
       namespace: spring:session
 
-
+authorization:
+  issuer: http://localhost:9090
 
 logging:
   level:

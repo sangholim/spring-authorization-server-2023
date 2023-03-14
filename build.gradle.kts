@@ -20,6 +20,8 @@ repositories {
 }
 
 dependencies {
+    annotationProcessor("org.springframework.boot:spring-boot-configuration-processor")
+
     implementation(platform("io.kotest:kotest-bom:5.5.5"))
     implementation("org.springframework.boot:spring-boot-starter-security")
     implementation("org.springframework.boot:spring-boot-starter-web")
