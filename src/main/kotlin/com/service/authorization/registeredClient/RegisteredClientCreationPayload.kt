@@ -28,4 +28,10 @@ data class RegisteredClientCreationPayload(
          * 접근 가능한 회원 범위를 지정
          */
         val scopes: Set<String> = mutableSetOf(),
-)
+) {
+    val validRedirectUris: List<String>
+            get() = redirectUris.filter { it.isNotBlank() }
+    val validScopes: List<String>
+        get() = scopes.filter { it.isNotBlank() }
+
+}
