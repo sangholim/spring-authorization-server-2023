@@ -4,4 +4,6 @@ object SecurityConstants {
     val SUCCESS_URL = "/console"
 
     val ROLE_ADMIN = "ROLE_ADMIN"
+
+    val PASSWORD_PREFIX = "{noop}"
 }
