@@ -20,4 +20,8 @@ class RegisteredClientService(
         val registeredClient = registeredClientRepository.findById(id) ?: throw Exception("존재하지 않는 id 입니다")
         registeredClient.update(payload).run(registeredClientRepository::save)
     }
+
+    fun deleteByIds(ids: Set<String>) {
+        ids.joinToString(separator = ",") { "'$it'" }.run(registeredClientRepository::deleteByIds)
+    }
 }
