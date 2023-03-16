@@ -13,4 +13,6 @@ class UserService(
     fun getBy(email: String): User? = userRepository.findByEmail(email)
 
     fun getById(id: String): User? = userRepository.findById(id).orElse(null)
+
+    fun getAll(): List<User> = userRepository.findAll()
 }
