@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{layout/layout}">
+
+<div layout:fragment="content">
+    <a class="btn btn-primary" role="button">추가</a>
+    <a class="btn btn-primary" role="button">선택 항목 제거</a>
+    <table class="table table-bordered table-hover" style="table-layout: fixed;">
+        <thead>
+        <tr>
+            <th style="width:50px"></th>
+            <th><span>id</span></th>
+            <th><span>email</span></th>
+            <th><span>enabled</span></th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="user : ${users}">
+            <td>
+                <input class="form-check-input" name="checkId" type="checkbox" th:value="${user.id}">
+            </td>
+            <td>
+                <a th:href="@{/console/users/{id}(id = ${user.id})}">
+                    <span class="d-block text-truncate" th:text="${user.id}"></span>
+                </a>
+            </td>
+            <td><span class="d-block text-truncate" th:text="${user.email}"></span></td>
+            <td><span class="d-block text-truncate" th:text="${user.enabled}"></span></td>
+        </tr>
+        </tbody>
+    </table>
+    <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
+</div>
+</html>
