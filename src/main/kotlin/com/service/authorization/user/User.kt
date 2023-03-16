@@ -42,5 +42,9 @@ class User(
                         password = userDetail.password,
                         enabled = userDetail.isEnabled
                 )
+
     }
+
+    fun update(payload: UserUpdatePayload): User =
+            User(this.id, payload.email, this.password, payload.enabled)
 }
