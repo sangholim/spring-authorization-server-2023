@@ -7,18 +7,18 @@
         </p>
     </div>
 
-    <form th:action="@{/console/register-clients}" method="post">
+    <form th:action="@{/console/register-clients/{id}(id=${client.id})}" th:method="put">
         <div class="mb-3">
             <label class="form-label" for="id">id</label>
             <input type="text" name="id" class="form-control " id="id" style="width:400px" th:value="${client.id}" readonly>
         </div>
         <div class="mb-3">
             <label class="form-label" for="clientId">client-id</label>
-            <input type="text" name="clientId" class="form-control " id="clientId" style="width:200px" th:value="${client.clientId}">
+            <input type="text" name="clientId" class="form-control " id="clientId" style="width:200px" th:value="${client.clientId}" readonly>
         </div>
         <div class="mb-3">
             <label class="form-label" for="clientSecret">client-secret</label>
-            <input type="text" name="clientSecret" class="form-control " id="clientSecret" style="width:200px" th:value="${client.clientSecret}">
+            <input type="text" name="clientSecret" class="form-control " id="clientSecret" style="width:200px" th:value="${client.clientSecret}" readonly>
         </div>
         <div class="mb-3">
             <label class="form-label" for="clientAuthenticationMethod">client-authentication-methods</label>
