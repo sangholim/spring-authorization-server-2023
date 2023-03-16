@@ -3,77 +3,74 @@
 <div layout:fragment="content">
     <div>
         <p class="display-5">
-            register-client 조회/수정
+            register-client 조회 수정
         </p>
     </div>
-    <form>
-        <div class="mb-3 row">
+
+    <form th:action="@{/console/register-clients/{id}(id=${client.id})}" th:method="put">
+        <div class="mb-3">
             <label class="form-label" for="id">id</label>
-            <input type="id" class="form-control" id="id" th:value="${client.id}" readonly>
+            <input type="text" name="id" class="form-control " id="id" style="width:400px" th:value="${client.id}" readonly>
         </div>
-        <div class="mb-3 row">
+        <div class="mb-3">
             <label class="form-label" for="clientId">client-id</label>
-            <input type="clientId" class="form-control" id="clientId" th:value="${client.clientId}">
+            <input type="text" name="clientId" class="form-control " id="clientId" style="width:200px" th:value="${client.clientId}" readonly>
         </div>
-        <div class="mb-3 row">
-            <label class="form-label" for="clientIdIssuedAt">client-id-issued-at</label>
-            <input type="clientIdIssuedAt" class="form-control" id="clientIdIssuedAt" th:value="${client.clientIdIssuedAt}">
-        </div>
-        <div class="mb-3 row">
+        <div class="mb-3">
             <label class="form-label" for="clientSecret">client-secret</label>
-            <input type="clientSecret" class="form-control" id="clientSecret" th:value="${client.clientSecret}">
+            <input type="text" name="clientSecret" class="form-control " id="clientSecret" style="width:200px" th:value="${client.clientSecret}" readonly>
         </div>
-        <div class="mb-3 row">
-            <label class="form-label" for="clientSecretExpiresAt">client-secret-expires-at</label>
-            <input type="clientSecretExpiresAt" class="form-control" id="clientSecretExpiresAt" th:value="${client.clientSecretExpiresAt}">
-        </div>
-        <div class="mb-3 row">
-            <label class="form-label" for="clientName">client-name</label>
-            <input type="clientName" class="form-control" id="clientName" th:value="${client.clientName}">
-        </div>
-        <div class="mb-3 row">
-            <label class="form-label" for="clientAuthenticationMethods">client-authentication-methods</label>
+        <div class="mb-3">
+            <label class="form-label" for="clientAuthenticationMethod">client-authentication-methods</label>
             <div class="form-check">
-                <input class="form-check-input" name="clientAuthenticationMethods" type="checkbox" value="" id="client_secret_basic" th:checked="${#lists.contains(client.clientAuthenticationMethods, 'client_secret_basic')}">
+                <input class="form-check-input" name="clientAuthenticationMethod" type="radio" value="client_secret_basic" id="client_secret_basic" th:checked="${#lists.contains(client.clientAuthenticationMethods, 'client_secret_basic')}">
                 <label class="form-check-label" for="client_secret_basic">
                     client_secret_basic
                 </label>
             </div>
             <div class="form-check">
-                <input class="form-check-input" name="clientAuthenticationMethods" type="checkbox" value="" id="client_secret_post" th:checked="${#lists.contains(client.clientAuthenticationMethods, 'client_secret_post')}">
+                <input class="form-check-input" name="clientAuthenticationMethod" type="radio" value="client_secret_post" id="client_secret_post" th:checked="${#lists.contains(client.clientAuthenticationMethods, 'client_secret_post')}">
                 <label class="form-check-label" for="client_secret_post">
                     client_secret_post
                 </label>
             </div>
         </div>
-        <div class="mb-3 row">
+        <div class="mb-3">
             <label class="form-label">authorization-grant-types</label>
             <div class="form-check">
-                <input class="form-check-input" name="authorizationGrantTypes" type="checkbox" value="" id="authorization_code" th:checked="${#lists.contains(client.authorizationGrantTypes, 'authorization_code')}">
+                <input class="form-check-input" name="authorizationGrantTypes" type="checkbox" value="authorization_code" id="authorization_code" th:checked="${#lists.contains(client.authorizationGrantTypes, 'authorization_code')}">
                 <label class="form-check-label" for="authorization_code">
                     authorization_code
                 </label>
             </div>
             <div class="form-check">
-                <input class="form-check-input" name="authorizationGrantTypes" type="checkbox" value="" id="refresh_token" th:checked="${#lists.contains(client.authorizationGrantTypes, 'refresh_token')}">
+                <input class="form-check-input" name="authorizationGrantTypes" type="checkbox" value="refresh_token" id="refresh_token" th:checked="${#lists.contains(client.authorizationGrantTypes, 'refresh_token')}">
                 <label class="form-check-label" for="refresh_token">
                     refresh_token
                 </label>
             </div>
             <div class="form-check">
-                <input class="form-check-input" name="authorizationGrantTypes" type="checkbox" value="" id="client_credentials" th:checked="${#lists.contains(client.authorizationGrantTypes, 'client_credentials')}">
+                <input class="form-check-input" name="authorizationGrantTypes" type="checkbox" value="client_credentials" id="client_credentials" th:checked="${#lists.contains(client.authorizationGrantTypes, 'client_credentials')}">
                 <label class="form-check-label" for="client_credentials">
                     client_credentials
                 </label>
             </div>
         </div>
-        <div class="mb-3 row">
-            <label class="form-label" for="redirectUris">redirect-uris</label>
-            <textarea class="form-control" id="redirectUris" rows="3" th:text="${#strings.listJoin(client.redirectUris, '&#13;&#10;')}"></textarea>
+        <div class="mb-3">
+            <label class="form-label">redirect-uris</label>
+            <th:block th:each="num : ${#numbers.sequence(0,4)}">
+                <div class="mb-1">
+                    <input type="text" name="redirectUris" class="form-control " style="width:400px" th:value="${#lists.size(client.redirectUris) > num} ? ${client.redirectUris[num]}: ''">
+                </div>
+            </th:block>
         </div>
-        <div class="mb-3 row">
-            <label class="form-label" for="scopes">scopes</label>
-            <textarea class="form-control" id="scopes" rows="3" th:text="${#strings.listJoin(client.scopes, '&#13;&#10;')}"></textarea>
+        <div class="mb-3">
+            <label class="form-label">scopes</label>
+            <th:block th:each="num : ${#numbers.sequence(0,4)}">
+                <div class="mb-1">
+                    <input type="text" name="scopes" class="form-control " style="width:400px" th:value="${#lists.size(client.scopes) > num} ? ${client.scopes[num]}: ''">
+                </div>
+            </th:block>
         </div>
         <button type="submit" class="btn btn-primary">저장</button>
     </form>
