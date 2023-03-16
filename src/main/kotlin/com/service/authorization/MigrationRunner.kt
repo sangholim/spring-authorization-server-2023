@@ -28,11 +28,10 @@ class MigrationRunner(
                 .roles("USER")
                 .roles("ADMIN")
                 .build()
-        if (userService.getBy(userDetails.username) != null) {
-            return
+        if (userService.getBy(userDetails.username) == null) {
+            val user = userService.save(userDetails)
+            userRoleService.saveAll(user.id, userDetails.authorities.toList())
         }
-        val user = userService.save(userDetails)
-        userRoleService.saveAll(user.id, userDetails.authorities.toList())
         val registeredClients = listOf(
                 RegisteredClient.withId(UUID.randomUUID().toString())
                         .clientId("public-client")
