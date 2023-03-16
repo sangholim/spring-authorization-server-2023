@@ -19,7 +19,7 @@ class RegisteredClientController(
 
     @GetMapping("/console/register-clients/{id}")
     fun getDetailView(@PathVariable id: String, model: Model): String {
-        model.addAttribute("client", registeredClientService.getBy(id).toDetalView())
+        model.addAttribute("client", registeredClientService.getBy(id).toDetailView())
         return "register-clients/detail"
     }
 

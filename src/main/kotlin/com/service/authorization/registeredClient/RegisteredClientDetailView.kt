@@ -25,7 +25,7 @@ data class RegisteredClientDetailView(
         val scopes: Set<String>,
 )
 
-fun RegisteredClient.toDetalView() = RegisteredClientDetailView(
+fun RegisteredClient.toDetailView() = RegisteredClientDetailView(
         id = id,
         clientId = clientId,
         clientIdIssuedAt = clientIdIssuedAt,
