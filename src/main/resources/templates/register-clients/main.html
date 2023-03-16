@@ -6,10 +6,10 @@
 <div layout:fragment="content">
     <a class="btn btn-primary" href="/console/register-clients/views/creation" role="button">추가</a>
     <a class="btn btn-primary" role="button" th:onclick="deleteClients()">선택 항목 제거</a>
-    <table class="table table-bordered table-hover">
+    <table class="table table-bordered table-hover" style="table-layout: fixed;">
         <thead>
         <tr>
-            <th></th>
+            <th style="width:50px"></th>
             <th><span>id</span></th>
             <th><span>client-id</span></th>
             <th><span>client-name</span></th>
@@ -24,13 +24,13 @@
             </td>
             <td>
                 <a th:href="@{/console/register-clients/{id}(id = ${client.id})}">
-                    <span class="d-inline-block text-truncate" th:text="${client.id}" style="max-width: 150px;"></span>
+                    <span class="d-block text-truncate" th:text="${client.id}"></span>
                 </a>
             </td>
-            <td><span class="d-inline-block text-truncate" th:text="${client.clientId}" style="max-width: 150px;"></span></td>
-            <td><span class="d-inline-block text-truncate" th:text="${client.clientName}" style="max-width: 150px;"></span></td>
-            <td><span class="d-inline-block text-truncate" th:text="${client.authorizationGrantTypes}" style="max-width: 150px;"></span></td>
-            <td><span class="d-inline-block text-truncate" th:text="${client.scopes}" style="max-width: 150px;"></span></td>
+            <td><span class="d-block text-truncate" th:text="${client.clientId}"></span></td>
+            <td><span class="d-block text-truncate" th:text="${client.clientName}"></span></td>
+            <td><span class="d-block text-truncate" th:text="${client.authorizationGrantTypes}"></span></td>
+            <td><span class="d-block text-truncate" th:text="${client.scopes}"></span></td>
         </tr>
         </tbody>
     </table>
