@@ -1,5 +1,6 @@
 package com.service.authorization.user
 
+import com.service.authorization.user.User.Companion.user
 import org.springframework.data.repository.findByIdOrNull
 import org.springframework.security.core.userdetails.UserDetails
 import org.springframework.stereotype.Service
@@ -10,6 +11,16 @@ class UserService(
 ) {
 
     fun save(userDetails: UserDetails): User = userRepository.save(User.of(userDetails))
+
+    fun save(payload: UserCreationPayload): User {
+        if (userRepository.findByEmail(payload.email) != null) throw Exception("가입된 이메일입니다")
+
+        return user {
+            email = payload.email
+            password = payload.password
+            enabled = true
+        }.run(userRepository::save)
+    }
 
     fun getBy(email: String): User? = userRepository.findByEmail(email)
 
