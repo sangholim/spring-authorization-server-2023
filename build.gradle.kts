@@ -4,11 +4,20 @@ import org.springframework.boot.gradle.tasks.bundling.BootBuildImage
 plugins {
     id("org.springframework.boot") version "3.0.2"
     id("io.spring.dependency-management") version "1.1.0"
-    id("org.jetbrains.kotlin.plugin.jpa") version "1.8.20-Beta"
     id("io.kotest") version "0.3.8"
 
     kotlin("jvm") version "1.7.22"
     kotlin("plugin.spring") version "1.7.22"
+    kotlin("plugin.allopen") version "1.8.0"
+    kotlin("plugin.jpa") version "1.8.0"
+    kotlin("kapt") version "1.8.0"
+
+}
+
+allOpen {
+    annotation("jakarta.persistence.Entity")
+    annotation("jakarta.persistence.Embeddable")
+    annotation("jakarta.persistence.MappedSuperclass")
 }
 
 group = "com.service"
@@ -20,6 +29,7 @@ repositories {
 }
 
 dependencies {
+    kapt("org.springframework.boot:spring-boot-configuration-processor")
     annotationProcessor("org.springframework.boot:spring-boot-configuration-processor")
 
     implementation(platform("io.kotest:kotest-bom:5.5.5"))
