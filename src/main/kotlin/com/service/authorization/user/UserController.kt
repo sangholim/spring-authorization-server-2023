@@ -1,12 +1,10 @@
 package com.service.authorization.user
 
+import org.springframework.http.HttpStatus
 import org.springframework.http.MediaType
 import org.springframework.stereotype.Controller
 import org.springframework.ui.Model
-import org.springframework.web.bind.annotation.GetMapping
-import org.springframework.web.bind.annotation.PathVariable
-import org.springframework.web.bind.annotation.PostMapping
-import org.springframework.web.bind.annotation.PutMapping
+import org.springframework.web.bind.annotation.*
 
 @Controller
 class UserController(
@@ -39,5 +37,14 @@ class UserController(
     fun save(payload: UserCreationPayload): String {
         userService.save(payload)
         return "redirect:/console/users"
+    }
+
+    @DeleteMapping("/console/users")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    fun delete(@RequestParam("ids") ids: Set<String>?) {
+        if(ids.isNullOrEmpty()) {
+            return
+        }
+        userService.deleteByIds(ids)
     }
 }
