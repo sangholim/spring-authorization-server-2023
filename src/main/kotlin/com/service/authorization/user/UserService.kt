@@ -33,4 +33,8 @@ class UserService(
         if (user.email != payload.email && userRepository.findByEmail(payload.email) != null) throw Exception("사용중인 회원 이메일 입니다")
         user.update(payload).run(userRepository::save)
     }
+
+    fun deleteByIds(ids: Set<String>) {
+        userRepository.deleteAllById(ids)
+    }
 }
