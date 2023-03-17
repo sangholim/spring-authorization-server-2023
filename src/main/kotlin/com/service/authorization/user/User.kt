@@ -1,7 +1,8 @@
 package com.service.authorization.user
 
-import jakarta.persistence.Entity
-import jakarta.persistence.Id
+import com.service.authorization.userFederatedIdentity.UserFederatedIdentity
+import com.service.authorization.userRole.UserRole
+import jakarta.persistence.*
 import org.springframework.security.core.userdetails.UserDetails
 import org.springframework.security.crypto.factory.PasswordEncoderFactories
 import java.util.UUID
@@ -15,23 +16,38 @@ class User(
          * id
          */
         @Id
-        val id: String,
+        var id: String,
 
         /**
          * email
          */
-        val email: String,
+        var email: String,
 
         /**
          * todo: 암호화 처리
          */
-        val password: String,
+        var password: String,
 
         /**
          * 활성화 여부
          */
-        val enabled: Boolean
+        var enabled: Boolean
 ) {
+    /**
+     * 회원 권한
+     */
+    @OneToMany(orphanRemoval = true)
+    @JoinColumn(name = "userId", insertable = false, updatable = false)
+    private val _roles: MutableSet<UserRole> = mutableSetOf()
+    val roles: MutableSet<UserRole> get() = _roles
+
+    /**
+     * 소셜 연동
+     */
+    @OneToMany(orphanRemoval = true)
+    @JoinColumn(name = "userId", insertable = false, updatable = false)
+    private val _federatedIdentities: MutableSet<UserFederatedIdentity> = mutableSetOf()
+    val federatedIdentities: MutableSet<UserFederatedIdentity> get() = _federatedIdentities
 
     private constructor(builder: Builder) : this(builder.id!!, builder.email, builder.password, builder.enabled)
 
@@ -68,6 +84,6 @@ class User(
         }
     }
 
-    fun update(payload: UserUpdatePayload): User =
+    fun update(payload: UserUpdatePayload) =
             User(this.id, payload.email, this.password, payload.enabled)
 }
