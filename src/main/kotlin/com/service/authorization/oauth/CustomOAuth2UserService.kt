@@ -1,5 +1,6 @@
 package com.service.authorization.oauth
 
+import com.service.authorization.config.SecurityConstants
 import com.service.authorization.user.UserCreationPayload
 import com.service.authorization.user.UserDTO
 import com.service.authorization.user.UserService
@@ -52,7 +53,7 @@ class CustomOAuth2UserService(
     }
 
     private fun getAllOrSaveUserRole(userId: String) =
-            userRoleService.getAllOrSave(userId, listOf(SimpleGrantedAuthority("USER")))
+            userRoleService.getAllOrSave(userId, listOf(SimpleGrantedAuthority(SecurityConstants.ROLE_USER)))
 
     private fun getOrSaveUser(email: String) = userService.getBy(email = email)
             ?: userService.save(UserCreationPayload(email = email, password = ""))

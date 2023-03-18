@@ -16,4 +16,6 @@ class UserFederatedIdentityService(
 
     fun getOrSave(id: String, userId: String, provider: String): UserFederatedIdentity =
             getBy(id) ?: save(id, userId, provider)
+
+    fun getAllBy(userId: String): List<UserFederatedIdentity> = userFederatedIdentityRepository.findByUserId(userId)
 }
