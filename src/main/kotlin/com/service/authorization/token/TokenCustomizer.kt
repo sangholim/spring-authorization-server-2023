@@ -23,7 +23,7 @@ class TokenCustomizer(
         }
 
         if (OidcParameterNames.ID_TOKEN == type.value) {
-            val userInfo = OidcUserInfo(customOAuth2UserService.oidcUser(subject))
+            val userInfo = OidcUserInfo(customOAuth2UserService.oidcUserInfo(subject))
             context.claims.claims { claim ->
                 claim.putAll(userInfo.claims)
             }

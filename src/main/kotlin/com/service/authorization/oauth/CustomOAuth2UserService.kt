@@ -45,7 +45,7 @@ class CustomOAuth2UserService(
         return userService.getById(federatedUser.userId)?.toDTO() ?: throw Exception("not found user")
     }
 
-    fun oidcUser(username: String): Map<String, Any>? {
+    fun oidcUserInfo(username: String): Map<String, Any>? {
         val user = findUser(username) ?: return null
 
         return OidcUserInfo.builder()
