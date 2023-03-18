@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{users/layout/detail-layout}">
+<html xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{users/layout/detail-layout}" th:with="userId=${user.id}">
 <th:block layout:fragment="detail-content">
     <form th:action="@{/console/users/{id}(id=${user.id})}" th:method="put">
         <div class="mb-3">
