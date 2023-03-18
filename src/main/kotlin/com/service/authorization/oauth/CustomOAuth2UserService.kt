@@ -1,14 +1,18 @@
 package com.service.authorization.oauth
 
+import com.service.authorization.user.UserCreationPayload
 import com.service.authorization.user.UserDTO
 import com.service.authorization.user.UserService
 import com.service.authorization.user.toDTO
 import com.service.authorization.userFederatedIdentity.UserFederatedIdentityService
+import com.service.authorization.userRole.UserRole
 import com.service.authorization.userRole.UserRoleService
-import org.springframework.security.core.userdetails.User
+import com.service.authorization.userRole.toGrantedAuthority
 import org.slf4j.LoggerFactory
+import org.springframework.security.core.authority.SimpleGrantedAuthority
 import org.springframework.security.oauth2.client.oidc.userinfo.OidcUserRequest
 import org.springframework.security.oauth2.client.userinfo.OAuth2UserService
+import org.springframework.security.oauth2.core.oidc.OidcIdToken
 import org.springframework.security.oauth2.core.oidc.OidcUserInfo
 import org.springframework.security.oauth2.core.oidc.user.DefaultOidcUser
 import org.springframework.security.oauth2.core.oidc.user.OidcUser
@@ -24,16 +28,14 @@ class CustomOAuth2UserService(
     override fun loadUser(userRequest: OidcUserRequest): OidcUser {
         // 계정 - 소셜이 없는 경우: 계정 소셜  추가
         // 계정은 있고 소셜이 없는 경우: 계정에 소셜 연동
-        val subject = userRequest.idToken.subject
         val email = userRequest.idToken.email
-        val userDetail = User.withDefaultPasswordEncoder()
-                .username(email)
-                .password("federated")
-                .roles("USER")
-                .build()
-        val user = userService.getBy(email = email) ?: userService.save(userDetail)
-        val userRoles = userRoleService.getAllOrSave(user.id, userDetail.authorities.toList())
-        userFederatedIdentityService.getOrSave(subject, user.id, userRequest.clientRegistration.registrationId)
+        val oidcUser = oidcUser(userRequest.idToken)
+        if (oidcUser != null) {
+            return oidcUser
+        }
+        val userId = getOrSaveUser(email).id
+        val userRoles = getAllOrSaveUserRole(userId)
+        getOrSaveUserFederatedIdentity(userId, userRequest)
         return DefaultOidcUser(userRoles, userRequest.idToken)
     }
 
@@ -45,7 +47,23 @@ class CustomOAuth2UserService(
         return userService.getById(federatedUser.userId)?.toDTO() ?: throw Exception("not found user")
     }
 
-    fun oidcUser(username: String): Map<String, Any>? {
+    private fun getOrSaveUserFederatedIdentity(userId: String, userRequest: OidcUserRequest) {
+        userFederatedIdentityService.getOrSave(userRequest.idToken.subject, userId, userRequest.clientRegistration.registrationId)
+    }
+
+    private fun getAllOrSaveUserRole(userId: String) =
+            userRoleService.getAllOrSave(userId, listOf(SimpleGrantedAuthority("USER")))
+
+    private fun getOrSaveUser(email: String) = userService.getBy(email = email)
+            ?: userService.save(UserCreationPayload(email = email, password = ""))
+
+    private fun oidcUser(idToken: OidcIdToken): OidcUser? {
+        val userId = userFederatedIdentityService.getBy(idToken.subject)?.userId ?: return null
+        val roles = userRoleService.getAllBy(userId).map(UserRole::toGrantedAuthority)
+        return DefaultOidcUser(roles, idToken)
+    }
+
+    fun oidcUserInfo(username: String): Map<String, Any>? {
         val user = findUser(username) ?: return null
 
         return OidcUserInfo.builder()

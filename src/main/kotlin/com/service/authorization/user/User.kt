@@ -2,6 +2,7 @@ package com.service.authorization.user
 
 import com.service.authorization.userFederatedIdentity.UserFederatedIdentity
 import com.service.authorization.userRole.UserRole
+import com.service.authorization.util.RandomUtil
 import jakarta.persistence.*
 import org.springframework.security.core.userdetails.UserDetails
 import org.springframework.security.crypto.factory.PasswordEncoderFactories
@@ -70,7 +71,7 @@ class User(
     class Builder {
         var id: String? = UUID.randomUUID().toString()
         var email: String = ""
-        var password: String = ""
+        var password: String = RandomUtil.generatePassword()
         var enabled: Boolean = false
 
         fun build(): User {
