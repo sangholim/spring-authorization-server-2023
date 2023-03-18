@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{users/layout/detail-layout}">
+<th:block layout:fragment="detail-content">
+    <table class="table table-bordered table-hover" style="table-layout: fixed;">
+        <thead>
+        <tr>
+            <th style="width:50px"></th>
+            <th><span>id</span></th>
+            <th><span>registrationId</span></th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="federatedIdentity : ${federatedIdentities}">
+            <td><input class="form-check-input" name="checkId" type="checkbox" th:value="${federatedIdentity.id}"></td>
+            <td><span class="d-block text-truncate" th:text="${federatedIdentity.id}"></span></td>
+            <td><span class="d-block text-truncate" th:text="${federatedIdentity.registrationId}"></span></td>
+        </tr>
+        </tbody>
+    </table>
+</th:block>
+</html>
