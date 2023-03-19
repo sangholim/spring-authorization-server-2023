@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{users/layout/detail-layout}">
+<th:block layout:fragment="detail-content">
+    <div>
+        <p class="display-6">
+            password 재설정
+        </p>
+    </div>
+
+    <form th:action="@{/console/users/{userId}/password(userId = ${userId})}" th:method="put">
+        <div class="mb-3">
+            <label for="password">Password</label>
+            <input type="password" name="password" class="form-control " id="password" style="width:200px" placeholder="Password">
+        </div>
+        <button type="submit" class="btn btn-primary">설정</button>
+    </form>
+</th:block>
+</html>
