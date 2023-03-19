@@ -65,21 +65,34 @@ class User(
                         password = userDetail.password,
                         enabled = userDetail.isEnabled
                 )
-    }
 
+        fun from(user: User): Builder = Builder().apply {
+            this.id = user.id
+            this.email = user.email
+            this.password = user.password
+            this.enabled = user.enabled
+        }
+    }
 
     class Builder {
         var id: String? = UUID.randomUUID().toString()
         var email: String = ""
-        var password: String = RandomUtil.generatePassword()
+        var password: String = ""
         var enabled: Boolean = false
 
         fun build(): User {
-            password = encodePassword()
+            if (password.isEmpty()) {
+                password = encodePassword(RandomUtil.generatePassword())
+            }
             return User(this)
         }
 
-        private fun encodePassword(): String {
+        fun password(password: String): Builder {
+            this.password = encodePassword(password)
+            return this
+        }
+
+        private fun encodePassword(password: String): String {
             val encoder = PasswordEncoderFactories.createDelegatingPasswordEncoder()
             return encoder.encode(password)
         }
