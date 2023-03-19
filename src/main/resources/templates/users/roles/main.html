@@ -1,8 +1,11 @@
 <!DOCTYPE html>
 <html xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{users/layout/detail-layout}">
+<th:block layout:fragment="script">
+    <script type="text/javascript" th:src="@{/js/users/roles/main.js}"></script>
+</th:block>
 <th:block layout:fragment="detail-content">
     <a class="btn btn-primary" th:href="@{/console/users/{userId}/roles/views/creation(userId = ${userId})}" role="button">추가</a>
-    <a class="btn btn-primary" role="button" th:onclick="deleteUsers()">선택 항목 제거</a>
+    <a class="btn btn-primary" role="button" th:onclick="deleteUserRoles([[${userId}]])">선택 항목 제거</a>
     <table class="table table-bordered table-hover" style="table-layout: fixed;">
         <thead>
         <tr>
@@ -19,5 +22,6 @@
         </tr>
         </tbody>
     </table>
+    <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
 </th:block>
 </html>
