@@ -1,16 +1,13 @@
 package com.service.authorization.oauth
 
-import com.service.authorization.config.SecurityConstants
 import com.service.authorization.user.UserCreationPayload
 import com.service.authorization.user.UserDTO
 import com.service.authorization.user.UserService
 import com.service.authorization.user.toDTO
 import com.service.authorization.userFederatedIdentity.UserFederatedIdentityService
-import com.service.authorization.userRole.UserRole
-import com.service.authorization.userRole.UserRoleService
-import com.service.authorization.userRole.toGrantedAuthority
+import com.service.authorization.userRole.*
 import org.slf4j.LoggerFactory
-import org.springframework.security.core.authority.SimpleGrantedAuthority
+import org.springframework.security.core.GrantedAuthority
 import org.springframework.security.oauth2.client.oidc.userinfo.OidcUserRequest
 import org.springframework.security.oauth2.client.userinfo.OAuth2UserService
 import org.springframework.security.oauth2.core.oidc.OidcIdToken
@@ -52,8 +49,11 @@ class CustomOAuth2UserService(
         userFederatedIdentityService.getOrSave(userRequest.idToken.subject, userId, userRequest.clientRegistration.registrationId)
     }
 
-    private fun getAllOrSaveUserRole(userId: String) =
-            userRoleService.getAllOrSave(userId, listOf(SimpleGrantedAuthority(SecurityConstants.ROLE_USER)))
+    private fun getAllOrSaveUserRole(userId: String):List<GrantedAuthority> {
+        val payload = UserRoleCreationPayload(UserRoleType.ROLE_USER)
+        return userRoleService.getAllOrSave(userId, payload)
+    }
+
 
     private fun getOrSaveUser(email: String) = userService.getBy(email = email)
             ?: userService.save(UserCreationPayload(email = email, password = ""))
