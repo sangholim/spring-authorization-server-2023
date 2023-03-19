@@ -21,9 +21,9 @@ class UserRole(
         val userId: String,
 
         /**
-         * 권한
+         * 권한 이름
          */
-        val role: String
+        val name: String
 ) {
     companion object {
         /**
@@ -32,7 +32,7 @@ class UserRole(
         fun of(userId: String, authority: GrantedAuthority) = UserRole(
                 id = UUID.randomUUID().toString(),
                 userId = userId,
-                role = authority.authority
+                name = authority.authority
         )
     }
 }
