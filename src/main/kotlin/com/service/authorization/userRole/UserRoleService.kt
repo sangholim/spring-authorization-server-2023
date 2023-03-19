@@ -29,4 +29,9 @@ class UserRoleService(
 
     fun getAllBy(userId: String): List<UserRole> =
             userRoleRepository.findByUserId(userId)
+
+    fun deleteByIds(userId: String, ids: Set<String>) {
+        userRoleRepository.deleteAllByUserIdAndIdIn(userId, ids)
+    }
+
 }
