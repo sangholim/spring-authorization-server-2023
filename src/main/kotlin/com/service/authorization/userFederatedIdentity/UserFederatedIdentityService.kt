@@ -18,4 +18,7 @@ class UserFederatedIdentityService(
             getBy(id) ?: save(id, userId, provider)
 
     fun getAllBy(userId: String): List<UserFederatedIdentity> = userFederatedIdentityRepository.findByUserId(userId)
+    fun deleteByIds(userId: String, ids: Set<String>) {
+        userFederatedIdentityRepository.deleteAllByUserIdAndIdIn(userId, ids)
+    }
 }
