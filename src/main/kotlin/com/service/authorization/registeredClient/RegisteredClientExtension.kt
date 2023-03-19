@@ -7,7 +7,10 @@ import org.springframework.security.oauth2.server.authorization.client.Registere
 fun RegisteredClient.update(payload: RegisteredClientUpdatePayload): RegisteredClient =
         RegisteredClient
                 .from(this)
-                .clientAuthenticationMethod(ClientAuthenticationMethod(payload.clientAuthenticationMethod))
+                .clientAuthenticationMethods {
+                    it.clear()
+                    it.add(ClientAuthenticationMethod(payload.clientAuthenticationMethod))
+                }
                 .authorizationGrantTypes { types ->
                     types.clear()
                     types.addAll(payload.authorizationGrantTypes.map { AuthorizationGrantType(it) })
