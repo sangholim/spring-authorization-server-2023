@@ -1,9 +1,11 @@
 package com.service.authorization.userRole
 
+import org.springframework.http.MediaType
 import org.springframework.stereotype.Controller
 import org.springframework.ui.Model
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PathVariable
+import org.springframework.web.bind.annotation.PostMapping
 
 @Controller
 class UserRoleController(
@@ -22,5 +24,11 @@ class UserRoleController(
         model.addAttribute("userId", userId)
         model.addAttribute("roles", UserRoleType.values())
         return "users/roles/creation"
+    }
+
+    @PostMapping("/console/users/{userId}/roles", consumes = [MediaType.APPLICATION_FORM_URLENCODED_VALUE])
+    fun save(@PathVariable userId: String, payload: UserRoleCreationPayload): String {
+        userRoleService.save(userId, payload)
+        return "redirect:/console/users/${userId}/roles"
     }
 }
