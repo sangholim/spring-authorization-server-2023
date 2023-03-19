@@ -25,7 +25,12 @@ class UserRole(
          */
         val name: String
 ) {
+    private constructor(builder: Builder) : this(builder.id!!, builder.userId, builder.name)
+
     companion object {
+
+        inline fun userRole(block: Builder.() -> Unit) = Builder().apply(block).build()
+
         /**
          * 회원 권한 객체 생성
          */
@@ -34,5 +39,16 @@ class UserRole(
                 userId = userId,
                 name = authority.authority
         )
+    }
+
+
+    class Builder {
+        var id: String? = UUID.randomUUID().toString()
+        var userId: String = ""
+        var name: String = ""
+
+        fun build(): UserRole {
+            return UserRole(this)
+        }
     }
 }
