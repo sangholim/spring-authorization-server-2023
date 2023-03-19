@@ -4,7 +4,6 @@ import com.service.authorization.userFederatedIdentity.UserFederatedIdentity
 import com.service.authorization.userRole.UserRole
 import com.service.authorization.util.RandomUtil
 import jakarta.persistence.*
-import org.springframework.security.core.userdetails.UserDetails
 import org.springframework.security.crypto.factory.PasswordEncoderFactories
 import java.util.UUID
 
@@ -55,17 +54,6 @@ class User(
     companion object {
         inline fun user(block: Builder.() -> Unit) = Builder().apply(block).build()
 
-        /**
-         * 회원 객체 생성
-         */
-        fun of(userDetail: UserDetails): User =
-                User(
-                        id = UUID.randomUUID().toString(),
-                        email = userDetail.username,
-                        password = userDetail.password,
-                        enabled = userDetail.isEnabled
-                )
-
         fun from(user: User): Builder = Builder().apply {
             this.id = user.id
             this.email = user.email
@@ -87,6 +75,12 @@ class User(
             return User(this)
         }
 
+        fun update(payload: UserUpdatePayload): Builder {
+            this.email = payload.email
+            this.enabled = payload.enabled
+            return this
+        }
+
         fun password(password: String): Builder {
             this.password = encodePassword(password)
             return this
@@ -97,7 +91,4 @@ class User(
             return encoder.encode(password)
         }
     }
-
-    fun update(payload: UserUpdatePayload) =
-            User(this.id, payload.email, this.password, payload.enabled)
 }
