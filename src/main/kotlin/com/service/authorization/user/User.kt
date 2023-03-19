@@ -4,7 +4,6 @@ import com.service.authorization.userFederatedIdentity.UserFederatedIdentity
 import com.service.authorization.userRole.UserRole
 import com.service.authorization.util.RandomUtil
 import jakarta.persistence.*
-import org.springframework.security.core.userdetails.UserDetails
 import org.springframework.security.crypto.factory.PasswordEncoderFactories
 import java.util.UUID
 
@@ -55,36 +54,41 @@ class User(
     companion object {
         inline fun user(block: Builder.() -> Unit) = Builder().apply(block).build()
 
-        /**
-         * 회원 객체 생성
-         */
-        fun of(userDetail: UserDetails): User =
-                User(
-                        id = UUID.randomUUID().toString(),
-                        email = userDetail.username,
-                        password = userDetail.password,
-                        enabled = userDetail.isEnabled
-                )
+        fun from(user: User): Builder = Builder().apply {
+            this.id = user.id
+            this.email = user.email
+            this.password = user.password
+            this.enabled = user.enabled
+        }
     }
-
 
     class Builder {
         var id: String? = UUID.randomUUID().toString()
         var email: String = ""
-        var password: String = RandomUtil.generatePassword()
+        var password: String = ""
         var enabled: Boolean = false
 
         fun build(): User {
-            password = encodePassword()
+            if (password.isEmpty()) {
+                password = encodePassword(RandomUtil.generatePassword())
+            }
             return User(this)
         }
 
-        private fun encodePassword(): String {
+        fun update(payload: UserUpdatePayload): Builder {
+            this.email = payload.email
+            this.enabled = payload.enabled
+            return this
+        }
+
+        fun password(password: String): Builder {
+            this.password = encodePassword(password)
+            return this
+        }
+
+        private fun encodePassword(password: String): String {
             val encoder = PasswordEncoderFactories.createDelegatingPasswordEncoder()
             return encoder.encode(password)
         }
     }
-
-    fun update(payload: UserUpdatePayload) =
-            User(this.id, payload.email, this.password, payload.enabled)
 }
