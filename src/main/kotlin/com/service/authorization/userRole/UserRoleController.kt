@@ -22,7 +22,7 @@ class UserRoleController(
     @GetMapping("/console/users/{userId}/roles/views/creation")
     fun getCreationView(@PathVariable userId: String, model: Model): String {
         model.addAttribute("userId", userId)
-        model.addAttribute("roles", UserRoleType.values())
+        model.addAttribute("roles", UserRoleName.values())
         return "users/roles/creation"
     }
 

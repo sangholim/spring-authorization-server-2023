@@ -50,7 +50,7 @@ class CustomOAuth2UserService(
     }
 
     private fun getAllOrSaveUserRole(userId: String):List<GrantedAuthority> {
-        val payload = UserRoleCreationPayload(UserRoleType.ROLE_USER)
+        val payload = UserRoleCreationPayload(UserRoleName.ROLE_USER)
         return userRoleService.getAllOrSave(userId, payload)
     }
 

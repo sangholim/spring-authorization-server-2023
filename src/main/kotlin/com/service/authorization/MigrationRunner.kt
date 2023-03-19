@@ -5,7 +5,7 @@ import com.service.authorization.user.UserCreationPayload
 import com.service.authorization.user.UserService
 import com.service.authorization.userRole.UserRoleCreationPayload
 import com.service.authorization.userRole.UserRoleService
-import com.service.authorization.userRole.UserRoleType
+import com.service.authorization.userRole.UserRoleName
 import org.springframework.boot.ApplicationArguments
 import org.springframework.boot.ApplicationRunner
 import org.springframework.security.oauth2.core.AuthorizationGrantType
@@ -24,7 +24,7 @@ class MigrationRunner(
 ) : ApplicationRunner {
     override fun run(args: ApplicationArguments) {
         val userPayload = UserCreationPayload("user", "password")
-        val userRolePayload = UserRoleCreationPayload(UserRoleType.ROLE_ADMIN)
+        val userRolePayload = UserRoleCreationPayload(UserRoleName.ROLE_ADMIN)
         if (userService.getBy(userPayload.email) == null) {
             val user = userService.save(userPayload)
             userRoleService.save(user.id, userRolePayload)

@@ -1,5 +1,5 @@
 package com.service.authorization.userRole
 
-enum class UserRoleType {
+enum class UserRoleName {
     ROLE_ADMIN, ROLE_USER
 }

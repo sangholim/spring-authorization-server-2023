@@ -23,7 +23,7 @@ class UserRole(
          * 권한 이름
          */
         @Enumerated(EnumType.STRING)
-        val name: UserRoleType
+        val name: UserRoleName
 ) {
     private constructor(builder: Builder) : this(builder.id!!, builder.userId, builder.name!!)
 
@@ -36,7 +36,7 @@ class UserRole(
     class Builder {
         var id: String? = UUID.randomUUID().toString()
         var userId: String = ""
-        var name: UserRoleType? = null
+        var name: UserRoleName? = null
 
         fun build(): UserRole {
             return UserRole(this)
