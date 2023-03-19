@@ -37,4 +37,9 @@ class UserService(
     fun deleteByIds(ids: Set<String>) {
         userRepository.deleteAllById(ids)
     }
+
+    fun updatePassword(id: String, payload: UserPasswordUpdatePayload) {
+        val user = userRepository.findByIdOrNull(id) ?: throw Exception("존재하지 않는 회원 id 입니다")
+        User.from(user).password(password = payload.password).build().run(userRepository::save)
+    }
 }
