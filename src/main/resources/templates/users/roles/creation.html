@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{users/layout/detail-layout}">
+<th:block layout:fragment="detail-content">
+    <div>
+        <p class="display-5">
+            user role 생성
+        </p>
+    </div>
+
+    <form th:action="@{/console/users/{userId}/roles(userId = ${userId})}" th:method="post">
+        <div class="mb-3">
+            <select class="form-select" name="name" aria-label="Default select example" style="width:200px">
+                <option selected>선택해주세요</option>
+                <th:block th:each="role : ${roles}">
+                    <option th:value="${role}" th:text="${role}"/>
+                </th:block>
+            </select>
+        </div>
+        <button type="submit" class="btn btn-primary">저장</button>
+    </form>
+</th:block>
+</html>

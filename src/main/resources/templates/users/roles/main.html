@@ -1,19 +1,21 @@
 <!DOCTYPE html>
 <html xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{users/layout/detail-layout}">
 <th:block layout:fragment="detail-content">
+    <a class="btn btn-primary" th:href="@{/console/users/{userId}/roles/views/creation(userId = ${userId})}" role="button">추가</a>
+    <a class="btn btn-primary" role="button" th:onclick="deleteUsers()">선택 항목 제거</a>
     <table class="table table-bordered table-hover" style="table-layout: fixed;">
         <thead>
         <tr>
             <th style="width:50px"></th>
             <th><span>id</span></th>
-            <th><span>role</span></th>
+            <th><span>name</span></th>
         </tr>
         </thead>
         <tbody>
         <tr th:each="role : ${roles}">
             <td><input class="form-check-input" name="checkId" type="checkbox" th:value="${role.id}"></td>
             <td><span class="d-block text-truncate" th:text="${role.id}"></span></td>
-            <td><span class="d-block text-truncate" th:text="${role.role}"></span></td>
+            <td><span class="d-block text-truncate" th:text="${role.name}"></span></td>
         </tr>
         </tbody>
     </table>
