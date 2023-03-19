@@ -1,9 +1,9 @@
 package com.service.authorization.userFederatedIdentity
 
+import org.springframework.http.HttpStatus
 import org.springframework.stereotype.Controller
 import org.springframework.ui.Model
-import org.springframework.web.bind.annotation.GetMapping
-import org.springframework.web.bind.annotation.PathVariable
+import org.springframework.web.bind.annotation.*
 
 @Controller
 class UserFederatedIdentityController(
@@ -17,4 +17,12 @@ class UserFederatedIdentityController(
         return "users/federated-identities/main"
     }
 
+    @DeleteMapping("/console/users/{userId}/federated-identities")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    fun delete(@PathVariable userId: String, @RequestParam("ids") ids: Set<String>?) {
+        if (ids.isNullOrEmpty()) {
+            return
+        }
+        userFederatedIdentityService.deleteByIds(userId, ids)
+    }
 }
