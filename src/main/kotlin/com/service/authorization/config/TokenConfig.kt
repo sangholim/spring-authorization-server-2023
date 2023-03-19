@@ -7,7 +7,6 @@ import com.nimbusds.jose.proc.SecurityContext
 import com.service.authorization.jose.Jwks
 import com.service.authorization.oauth.CustomOAuth2UserService
 import com.service.authorization.token.TokenCustomizer
-import com.service.authorization.token.TokenProvider
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
 import org.springframework.security.oauth2.jwt.JwtDecoder
@@ -37,9 +36,6 @@ class TokenConfig {
     fun jwtEncoder(): JwtEncoder {
         return NimbusJwtEncoder(jwkSource())
     }
-
-    @Bean
-    fun tokenProvider() = TokenProvider(rsaKey, jwtEncoder())
 
     /**
      * 토큰 클레임 커스텀 소스
