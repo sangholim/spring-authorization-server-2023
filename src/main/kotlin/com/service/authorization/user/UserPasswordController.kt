@@ -9,9 +9,16 @@ class UserPasswordController(
         private val userService: UserService
 ) {
 
-    @GetMapping("/console/users/{userId}/password")
-    fun get(@PathVariable userId: String, model: Model): String {
-        model.addAttribute("userId", userId)
+    @GetMapping("/console/users/{id}/password")
+    fun get(@PathVariable id: String, model: Model): String {
+        model.addAttribute("userId", id)
         return "users/password/main"
+    }
+
+
+    @PutMapping("/console/users/{id}/password")
+    fun update(@PathVariable id: String, payload: UserPasswordUpdatePayload): String {
+        userService.updatePassword(id, payload)
+        return "redirect:/console/users/$id/password"
     }
 }
