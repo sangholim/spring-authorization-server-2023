@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{register-clients/layout/detail-layout}" th:with="registeredClientId=${id}">>
+<div layout:fragment="detail-content">
+    <form th:action="@{/console/register-clients/{id}/token(id=${id})}" th:method="put">
+        <div class="mb-3">
+            <label class="form-label d-block" for="authorizationCodeTimeToLive">authorization-code-time-to-live</label>
+            <input type="text" name="authorizationCodeTimeToLive" class="form-control d-inline-block text-end" id="authorizationCodeTimeToLive" style="width:70px" th:value="${token.authorizationCodeTimeToLive}">
+            <span class="input-group-text d-inline-block">분</span>
+        </div>
+        <div class="mb-3">
+            <label class="form-label d-block" for="accessTokenTimeToLive">accessToken-time-to-live</label>
+            <input type="text" name="accessTokenTimeToLive" class="form-control d-inline-block text-end " id="accessTokenTimeToLive" style="width:70px" th:value="${token.accessTokenTimeToLive}">
+            <span class="input-group-text d-inline-block">분</span>
+        </div>
+        <div class="mb-3">
+            <label class="form-label d-block" for="refreshTokenTimeToLive">refresh-token-time-to-live</label>
+            <input type="text" name="refreshTokenTimeToLive" class="form-control d-inline-block text-end " id="refreshTokenTimeToLive" style="width:70px" th:value="${token.refreshTokenTimeToLive}">
+            <span class="input-group-text d-inline-block">분</span>
+        </div>
+        <button type="submit" class="btn btn-primary">저장</button>
+    </form>
+</div>
+</html>
