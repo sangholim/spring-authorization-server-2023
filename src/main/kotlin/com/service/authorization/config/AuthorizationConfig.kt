@@ -1,11 +1,10 @@
 package com.service.authorization.config
 
+import com.service.authorization.oauth.CustomOAuth2AuthorizationService
 import org.springframework.boot.context.properties.EnableConfigurationProperties
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
 import org.springframework.jdbc.core.JdbcTemplate
-import org.springframework.security.oauth2.server.authorization.JdbcOAuth2AuthorizationService
-import org.springframework.security.oauth2.server.authorization.OAuth2AuthorizationService
 import org.springframework.security.oauth2.server.authorization.client.RegisteredClientRepository
 import org.springframework.security.oauth2.server.authorization.settings.AuthorizationServerSettings
 
@@ -34,7 +33,7 @@ class AuthorizationConfig {
      * 회원 승인 정보 저장 서비스
      */
     @Bean
-    fun authorizationService(jdbcTemplate: JdbcTemplate, registeredClientRepository: RegisteredClientRepository): OAuth2AuthorizationService {
-        return JdbcOAuth2AuthorizationService(jdbcTemplate, registeredClientRepository)
+    fun authorizationService(jdbcTemplate: JdbcTemplate, registeredClientRepository: RegisteredClientRepository): CustomOAuth2AuthorizationService {
+        return CustomOAuth2AuthorizationService(jdbcTemplate, registeredClientRepository)
     }
 }
