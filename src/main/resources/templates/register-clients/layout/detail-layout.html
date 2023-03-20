@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{layout/layout}">
+<div layout:fragment="content">
+    <div>
+        <p class="display-5">
+            register-client 조회 수정
+        </p>
+    </div>
+    <div class="card">
+        <div class="card-header text-center">
+            <ul class="nav nav-tabs card-header-tabs">
+                <li class="nav-item">
+                    <a class="nav-link" th:href="@{/console/register-clients/{id}(id = ${registeredClientId})}">기본 정보</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link">토큰 설정</a>
+                </li>
+            </ul>
+        </div>
+        <div class="card-body">
+            <th:block layout:fragment="detail-content">
+                <!--
+                 detail-content 추가해주세요
+                -->
+            </th:block>
+        </div>
+    </div>
+</div>
+</html>
