@@ -14,7 +14,7 @@ class OAuth2AuthorizationController(
     fun getAll(@PathVariable id: String, model: Model): String {
         model.addAttribute("id", id)
         model.addAttribute("authorizations", authorizationService.findByRegisteredClientId(id).map { it.toView() })
-        return "register-clients/authorization/main"
+        return "register-clients/authorizations/main"
     }
 
 }
