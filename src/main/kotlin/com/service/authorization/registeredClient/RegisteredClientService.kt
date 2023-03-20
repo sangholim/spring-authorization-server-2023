@@ -21,6 +21,12 @@ class RegisteredClientService(
         registeredClient.update(payload).run(registeredClientRepository::save)
     }
 
+    fun updateToken(id: String, payload: RegisteredClientTokenUpdatePayload) {
+        val registeredClient = registeredClientRepository.findById(id) ?: throw Exception("존재하지 않는 id 입니다")
+        registeredClient.updateToken(payload).run(registeredClientRepository::save)
+
+    }
+
     fun deleteByIds(ids: Set<String>) {
         ids.joinToString(separator = ",") { "'$it'" }.run(registeredClientRepository::deleteByIds)
     }
