@@ -51,10 +51,12 @@ class MigrationRunner(
                         .redirectUri("https://oauthdebugger.com/debug")
                         .clientSettings(ClientSettings.builder().requireAuthorizationConsent(true).build())
                         .build()
-                )
-        registeredClientRepository.deleteAll()
-        registeredClients.forEach {
-            registeredClientRepository.save(it)
+        )
+        if (registeredClientRepository.findBy().isEmpty()) {
+            registeredClients.forEach {
+                registeredClientRepository.save(it)
+            }
+            return
         }
     }
 }

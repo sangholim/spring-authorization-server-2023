@@ -15,6 +15,9 @@
                 <li class="nav-item">
                     <a class="nav-link" th:href="@{/console/register-clients/{id}/token(id = ${registeredClientId})}">토큰 설정</a>
                 </li>
+                <li class="nav-item">
+                    <a class="nav-link" th:href="@{/console/register-clients/{id}/authorizations(id = ${registeredClientId})}">승인 현황</a>
+                </li>
             </ul>
         </div>
         <div class="card-body">
