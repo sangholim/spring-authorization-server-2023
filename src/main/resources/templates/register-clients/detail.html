@@ -1,12 +1,6 @@
 <!DOCTYPE html>
-<html xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{layout/layout}">
-<div layout:fragment="content">
-    <div>
-        <p class="display-5">
-            register-client 조회 수정
-        </p>
-    </div>
-
+<html xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{register-clients/layout/detail-layout}" th:with="registeredClientId=${client.id}">>
+<div layout:fragment="detail-content">
     <form th:action="@{/console/register-clients/{id}(id=${client.id})}" th:method="put">
         <div class="mb-3">
             <label class="form-label" for="id">id</label>
