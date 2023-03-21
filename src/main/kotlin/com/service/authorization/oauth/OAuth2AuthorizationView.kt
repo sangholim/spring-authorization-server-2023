@@ -5,7 +5,7 @@ import org.springframework.security.oauth2.core.OAuth2RefreshToken
 import org.springframework.security.oauth2.core.oidc.OidcIdToken
 import org.springframework.security.oauth2.server.authorization.OAuth2Authorization
 import org.springframework.security.oauth2.server.authorization.OAuth2AuthorizationCode
-import java.time.Instant
+import java.time.LocalDateTime
 
 data class OAuth2AuthorizationView(
         val id: String,
@@ -13,16 +13,16 @@ data class OAuth2AuthorizationView(
         val principalName: String,
         val authorizationGrantTypes: String,
         val authorizedScopes: String,
-        val authorizationCodeIssuedAt: Instant?,
-        val authorizationCodeExpiresAt: Instant?,
-        val accessTokenIssuedAt: Instant?,
-        val accessTokenExpiresAt: Instant?,
+        val authorizationCodeIssuedAt: LocalDateTime?,
+        val authorizationCodeExpiresAt: LocalDateTime?,
+        val accessTokenIssuedAt: LocalDateTime?,
+        val accessTokenExpiresAt: LocalDateTime?,
         val accessTokenType: String?,
         val accessTokenScopes: String?,
-        val oidcIdTokenIssuedAt: Instant?,
-        val oidcIdTokenExpiresAt: Instant?,
-        val refreshTokenIssuedAt: Instant?,
-        val refreshTokenExpiresAt: Instant?
+        val oidcIdTokenIssuedAt: LocalDateTime?,
+        val oidcIdTokenExpiresAt: LocalDateTime?,
+        val refreshTokenIssuedAt: LocalDateTime?,
+        val refreshTokenExpiresAt: LocalDateTime?
 )
 
 fun OAuth2Authorization.toView(): OAuth2AuthorizationView {
@@ -36,15 +36,15 @@ fun OAuth2Authorization.toView(): OAuth2AuthorizationView {
             principalName = this.principalName,
             authorizationGrantTypes = this.authorizationGrantType.value,
             authorizedScopes = this.authorizedScopes.joinToString(separator = ","),
-            authorizationCodeIssuedAt = authorizationCode?.token?.issuedAt,
-            authorizationCodeExpiresAt = authorizationCode?.token?.expiresAt,
-            accessTokenIssuedAt = accessToken?.token?.issuedAt,
-            accessTokenExpiresAt =  accessToken?.token?.expiresAt,
+            authorizationCodeIssuedAt = authorizationCode.convertIssuedAt(),
+            authorizationCodeExpiresAt = authorizationCode.convertExpiresAt(),
+            accessTokenIssuedAt = accessToken.convertIssuedAt(),
+            accessTokenExpiresAt =  accessToken.convertExpiresAt(),
             accessTokenType = accessToken?.token?.tokenType?.value,
             accessTokenScopes = accessToken?.token?.scopes?.joinToString(separator = ","),
-            oidcIdTokenIssuedAt = oidcToken?.token?.issuedAt,
-            oidcIdTokenExpiresAt = oidcToken?.token?.expiresAt,
-            refreshTokenIssuedAt = refreshToken?.token?.issuedAt,
-            refreshTokenExpiresAt = refreshToken?.token?.expiresAt
+            oidcIdTokenIssuedAt = oidcToken.convertIssuedAt(),
+            oidcIdTokenExpiresAt = oidcToken.convertExpiresAt(),
+            refreshTokenIssuedAt = refreshToken.convertIssuedAt(),
+            refreshTokenExpiresAt = refreshToken.convertExpiresAt()
     )
 }
