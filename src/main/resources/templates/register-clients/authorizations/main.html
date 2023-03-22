@@ -1,7 +1,10 @@
 <!DOCTYPE html>
 <html xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{register-clients/layout/detail-layout}" th:with="registeredClientId=${id}">>
+<th:block layout:fragment="script">
+    <script type="text/javascript" th:src="@{/js/register-clients/authorizations/main.js}"></script>
+</th:block>
 <div layout:fragment="detail-content">
-    <a class="btn btn-primary" role="button">선택 항목 제거</a>
+    <a class="btn btn-primary" role="button" th:onclick="authorization.deleteAll([[${id}]])">선택 항목 제거</a>
     <table class="table table-bordered table-hover" style="display: block; overflow-x: auto; white-space: nowrap;">
         <thead>
         <tr>
