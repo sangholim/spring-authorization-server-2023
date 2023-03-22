@@ -31,16 +31,16 @@
             <td><span class="d-block text-truncate" th:text="${authorization.principalName}"></span></td>
             <td><span class="d-block text-truncate" th:text="${authorization.authorizationGrantTypes}"></span></td>
             <td><span class="d-block text-truncate" th:text="${authorization.authorizedScopes}"></span></td>
-            <td><span class="d-block text-truncate" th:text="${authorization.authorizationCodeIssuedAt}"></span></td>
-            <td><span class="d-block text-truncate" th:text="${authorization.authorizationCodeExpiresAt}"></span></td>
-            <td><span class="d-block text-truncate" th:text="${authorization.accessTokenIssuedAt}"></span></td>
-            <td><span class="d-block text-truncate" th:text="${authorization.accessTokenExpiresAt}"></span></td>
+            <td><span class="d-block text-truncate" th:text="${#temporals.format(authorization.authorizationCodeIssuedAt, 'yyyy-MM-dd HH:mm:ss')}"></span></td>
+            <td><span class="d-block text-truncate" th:text="${#temporals.format(authorization.authorizationCodeExpiresAt, 'yyyy-MM-dd HH:mm:ss')}"></span></td>
+            <td><span class="d-block text-truncate" th:text="${#temporals.format(authorization.accessTokenIssuedAt, 'yyyy-MM-dd HH:mm:ss')}"></span></td>
+            <td><span class="d-block text-truncate" th:text="${#temporals.format(authorization.accessTokenExpiresAt, 'yyyy-MM-dd HH:mm:ss')}"></span></td>
             <td><span class="d-block text-truncate" th:text="${authorization.accessTokenType}"></span></td>
             <td><span class="d-block text-truncate" th:text="${authorization.accessTokenScopes}"></span></td>
-            <td><span class="d-block text-truncate" th:text="${authorization.oidcIdTokenIssuedAt}"></span></td>
-            <td><span class="d-block text-truncate" th:text="${authorization.oidcIdTokenExpiresAt}"></span></td>
-            <td><span class="d-block text-truncate" th:text="${authorization.refreshTokenIssuedAt}"></span></td>
-            <td><span class="d-block text-truncate" th:text="${authorization.refreshTokenExpiresAt}"></span></td>
+            <td><span class="d-block text-truncate" th:text="${#temporals.format(authorization.oidcIdTokenIssuedAt, 'yyyy-MM-dd HH:mm:ss')}"></span></td>
+            <td><span class="d-block text-truncate" th:text="${#temporals.format(authorization.oidcIdTokenExpiresAt, 'yyyy-MM-dd HH:mm:ss')}"></span></td>
+            <td><span class="d-block text-truncate" th:text="${#temporals.format(authorization.refreshTokenIssuedAt, 'yyyy-MM-dd HH:mm:ss')}"></span></td>
+            <td><span class="d-block text-truncate" th:text="${#temporals.format(authorization.refreshTokenExpiresAt, 'yyyy-MM-dd HH:mm:ss')}"></span></td>
         </tr>
         </tbody>
     </table>
