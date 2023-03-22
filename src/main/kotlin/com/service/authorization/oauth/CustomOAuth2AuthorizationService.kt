@@ -1,5 +1,7 @@
 package com.service.authorization.oauth
 
+import com.service.authorization.util.sqlValue
+import com.service.authorization.util.sqlValues
 import org.springframework.jdbc.core.JdbcOperations
 import org.springframework.security.oauth2.server.authorization.JdbcOAuth2AuthorizationService
 import org.springframework.security.oauth2.server.authorization.OAuth2Authorization
@@ -41,9 +43,16 @@ class CustomOAuth2AuthorizationService(
 
     private val SELECT_FROM = "SELECT $COLUMN_NAMES FROM $TABLE_NAME WHERE"
 
+    private val DELETE_FROM = "DELETE FROM $TABLE_NAME"
+
     fun findByRegisteredClientId(registeredClientId: String): List<OAuth2Authorization> {
-        val query = "$SELECT_FROM registered_client_id='$registeredClientId'"
+        val query = "$SELECT_FROM registered_client_id=${registeredClientId.sqlValue()}"
 
         return jdbcOperations.query(query, authorizationRowMapper)
+    }
+
+    fun deleteBy(registeredClientId: String, ids: Set<String>) {
+        val query = "$DELETE_FROM WHERE registered_client_id=${registeredClientId.sqlValue()} AND id IN (${ids.sqlValues()})"
+        jdbcOperations.update(query)
     }
 }
