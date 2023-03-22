@@ -28,6 +28,6 @@ class RegisteredClientService(
     }
 
     fun deleteByIds(ids: Set<String>) {
-        ids.joinToString(separator = ",") { "'$it'" }.run(registeredClientRepository::deleteByIds)
+        registeredClientRepository.deleteByIds(ids)
     }
 }

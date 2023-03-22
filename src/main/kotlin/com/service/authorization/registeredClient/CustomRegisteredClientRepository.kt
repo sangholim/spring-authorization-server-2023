@@ -1,5 +1,6 @@
 package com.service.authorization.registeredClient
 
+import com.service.authorization.util.sqlValues
 import org.springframework.jdbc.core.JdbcOperations
 import org.springframework.security.oauth2.server.authorization.client.JdbcRegisteredClientRepository
 import org.springframework.security.oauth2.server.authorization.client.RegisteredClient
@@ -35,7 +36,7 @@ class CustomRegisteredClientRepository(jdbcOperations: JdbcOperations) : JdbcReg
         jdbcOperations.update(DELETE_ALL)
     }
 
-    fun deleteByIds(ids: String) {
-        jdbcOperations.update(DELETE_BY_IDS.format(ids))
+    fun deleteByIds(ids: Set<String>) {
+        jdbcOperations.update(DELETE_BY_IDS.format(ids.sqlValues()))
     }
 }
