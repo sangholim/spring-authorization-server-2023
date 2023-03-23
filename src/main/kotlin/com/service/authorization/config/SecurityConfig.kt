@@ -35,7 +35,6 @@ class SecurityConfig(
                     .authenticationEntryPoint(
                             LoginUrlAuthenticationEntryPoint("/"))
         }
-        http.apply(oauth2Config.federatedIdentityConfig)
         http.oauth2ResourceServer { it.jwt().decoder(jwtDecoder) }
         return http.build()
     }
