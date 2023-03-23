@@ -1,5 +1,5 @@
 const authorization = {
-    deleteAll: function (registeredClientId) {
+    deleteByRegisterClientId: function (registeredClientId) {
         const nodes = document.querySelectorAll("input[name='checkId']:checked");
         const ids = Array.from(nodes).map(x => x.value).join(",");
         const url = `/console/register-clients/${registeredClientId}/authorizations?ids=${ids}`;
