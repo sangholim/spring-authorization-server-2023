@@ -10,10 +10,10 @@ class OAuth2AuthorizationController(
         private val authorizationService: CustomOAuth2AuthorizationService
 ) {
 
-    @GetMapping("/console/register-clients/{id}/authorizations")
-    fun getAllByRegisteredClientId(@PathVariable id: String, model: Model): String {
-        model.addAttribute("id", id)
-        model.addAttribute("authorizations", authorizationService.findByRegisteredClientId(id).map { it.toView() })
+    @GetMapping("/console/register-clients/{registeredClientId}/authorizations")
+    fun getAllByRegisteredClientId(@PathVariable registeredClientId: String, model: Model): String {
+        model.addAttribute("id", registeredClientId)
+        model.addAttribute("authorizations", authorizationService.findByRegisteredClientId(registeredClientId).map { it.toView() })
         return "register-clients/authorizations/main"
     }
 
@@ -23,13 +23,22 @@ class OAuth2AuthorizationController(
         if (ids.isNullOrEmpty()) {
             return
         }
-        authorizationService.deleteBy(registeredClientId, ids)
+        authorizationService.deleteByRegisteredClientId(registeredClientId, ids)
     }
 
-    @GetMapping("/console/users/{id}/authorizations")
-    fun getAllByUserId(@PathVariable id: String, model: Model): String {
-        model.addAttribute("id", id)
-        model.addAttribute("authorizations", authorizationService.findByUserId(id).map { it.toView() })
+    @GetMapping("/console/users/{userId}/authorizations")
+    fun getAllByUserId(@PathVariable userId: String, model: Model): String {
+        model.addAttribute("id", userId)
+        model.addAttribute("authorizations", authorizationService.findByUserId(userId).map { it.toView() })
         return "users/authorizations/main"
+    }
+
+    @DeleteMapping("/console/users/{userId}/authorizations")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    fun deleteByUserId(@PathVariable userId: String, @RequestParam("ids") ids: Set<String>?) {
+        if (ids.isNullOrEmpty()) {
+            return
+        }
+        authorizationService.deleteByUserId(userId, ids)
     }
 }
