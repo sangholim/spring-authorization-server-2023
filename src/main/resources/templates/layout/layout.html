@@ -1,11 +1,17 @@
 <!DOCTYPE html>
 <html xmlns:th="https://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
 <head th:replace="head/head::head"></head>
+<script type="text/javascript" th:src="@{/js/components/nav.js}"></script>
 <th:block layout:fragment="script">
     <!--
     script 추가해 주세요
     -->
 </th:block>
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+        nav.active();
+    });
+</script>
 <body>
 <div class="container-fluid">
     <div class="row border">
