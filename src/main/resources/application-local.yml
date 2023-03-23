@@ -1,6 +1,8 @@
 server:
   port: 9090
-
+  servlet:
+    session:
+      timeout: 5m
 spring:
   security:
     oauth2:
