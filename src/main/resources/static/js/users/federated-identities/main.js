@@ -7,7 +7,7 @@ function deleteUserFederatedIdentities(userId) {
   xhr.open("DELETE",url);
   xhr.onreadystatechange = function() { // listen for state changes
     if (xhr.readyState == 4) { // when completed we can move away
-        window.location.href=`/console/users/${userId}/federated-identities`;
+        window.location.reload(true);
     }
   }
   xhr.setRequestHeader("x-csrf-token", csrf);
