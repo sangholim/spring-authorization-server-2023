@@ -51,7 +51,7 @@ class CustomOAuth2AuthorizationService(
         return jdbcOperations.query(query, authorizationRowMapper)
     }
 
-    fun deleteBy(registeredClientId: String, ids: Set<String>) {
+    fun deleteByRegisteredClientId(registeredClientId: String, ids: Set<String>) {
         val query = "$DELETE_FROM WHERE registered_client_id=${registeredClientId.sqlValue()} AND id IN (${ids.sqlValues()})"
         jdbcOperations.update(query)
     }
@@ -60,4 +60,10 @@ class CustomOAuth2AuthorizationService(
         val query = "$SELECT_FROM principal_name=${userId.sqlValue()}"
         return jdbcOperations.query(query, authorizationRowMapper)
     }
+
+    fun deleteByUserId(userId: String, ids: Set<String>) {
+        val query = "$DELETE_FROM WHERE principal_name=${userId.sqlValue()} AND id IN (${ids.sqlValues()})"
+        jdbcOperations.update(query)
+    }
+
 }
