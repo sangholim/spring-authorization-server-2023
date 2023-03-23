@@ -55,4 +55,9 @@ class CustomOAuth2AuthorizationService(
         val query = "$DELETE_FROM WHERE registered_client_id=${registeredClientId.sqlValue()} AND id IN (${ids.sqlValues()})"
         jdbcOperations.update(query)
     }
+
+    fun findByUserId(userId: String): List<OAuth2Authorization> {
+        val query = "$SELECT_FROM principal_name=${userId.sqlValue()}"
+        return jdbcOperations.query(query, authorizationRowMapper)
+    }
 }
