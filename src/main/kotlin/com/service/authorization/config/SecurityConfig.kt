@@ -1,6 +1,5 @@
 package com.service.authorization.config
 
-import com.service.authorization.federatedIdentity.FederatedIdentityConfigurer
 import com.service.authorization.userRole.UserRoleName
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
@@ -10,10 +9,6 @@ import org.springframework.security.config.Customizer
 import org.springframework.security.config.annotation.web.builders.HttpSecurity
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity
 import org.springframework.security.core.userdetails.UserDetailsService
-import org.springframework.security.oauth2.client.oidc.userinfo.OidcUserRequest
-import org.springframework.security.oauth2.client.registration.ClientRegistrationRepository
-import org.springframework.security.oauth2.client.userinfo.OAuth2UserService
-import org.springframework.security.oauth2.core.oidc.user.OidcUser
 import org.springframework.security.oauth2.jwt.JwtDecoder
 import org.springframework.security.oauth2.server.authorization.config.annotation.web.configuration.OAuth2AuthorizationServerConfiguration
 import org.springframework.security.oauth2.server.authorization.config.annotation.web.configurers.OAuth2AuthorizationServerConfigurer
@@ -24,9 +19,7 @@ import java.util.*
 @EnableWebSecurity
 @Configuration
 class SecurityConfig(
-        private val clientRegistrationRepository: ClientRegistrationRepository,
-        private val customerOAuth2UserService: OAuth2UserService<OidcUserRequest, OidcUser>,
-        private val userNameAndPasswordService: UserDetailsService,
+        private val oauth2Config: Oauth2Config,
         private val jwtDecoder: JwtDecoder
 ) {
 
@@ -42,7 +35,7 @@ class SecurityConfig(
                     .authenticationEntryPoint(
                             LoginUrlAuthenticationEntryPoint("/"))
         }
-        http.apply(FederatedIdentityConfigurer(clientRegistrationRepository, customerOAuth2UserService))
+        http.apply(oauth2Config.federatedIdentityConfig)
         http.oauth2ResourceServer { it.jwt().decoder(jwtDecoder) }
         return http.build()
     }
@@ -51,7 +44,7 @@ class SecurityConfig(
     @Bean
     @Order(2)
     @Throws(java.lang.Exception::class)
-    fun defaultSecurityFilterChain(http: HttpSecurity): SecurityFilterChain {
+    fun defaultSecurityFilterChain(http: HttpSecurity, userNameAndPasswordService: UserDetailsService): SecurityFilterChain {
         http.authorizeHttpRequests { authorize ->
             authorize
                     .requestMatchers("/assets/**", "/webjars/**", "/", "", "/login/**", "/login").permitAll()
@@ -63,7 +56,7 @@ class SecurityConfig(
                 .and()
                 .userDetailsService(userNameAndPasswordService)
                 .oauth2ResourceServer { it.jwt().decoder(jwtDecoder) }
-        http.apply(FederatedIdentityConfigurer(clientRegistrationRepository, customerOAuth2UserService))
+        http.apply(oauth2Config.federatedIdentityConfig)
         return http.build()
     }
 }

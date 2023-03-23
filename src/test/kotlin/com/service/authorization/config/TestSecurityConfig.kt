@@ -9,10 +9,6 @@ import org.springframework.core.annotation.Order
 import org.springframework.security.config.annotation.web.builders.HttpSecurity
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity
 import org.springframework.security.core.userdetails.UserDetailsService
-import org.springframework.security.oauth2.client.oidc.userinfo.OidcUserRequest
-import org.springframework.security.oauth2.client.registration.ClientRegistrationRepository
-import org.springframework.security.oauth2.client.userinfo.OAuth2UserService
-import org.springframework.security.oauth2.core.oidc.user.OidcUser
 import org.springframework.security.oauth2.jwt.JwtDecoder
 import org.springframework.security.web.SecurityFilterChain
 
@@ -22,12 +18,10 @@ import org.springframework.security.web.SecurityFilterChain
 @EnableWebSecurity
 @TestConfiguration
 class TestSecurityConfig(
-        clientRegistrationRepository: ClientRegistrationRepository,
-        customerOAuth2UserService: OAuth2UserService<OidcUserRequest, OidcUser>,
-        userNameAndPasswordService: UserDetailsService,
+        oauth2Config: Oauth2Config,
         jwtDecoder: JwtDecoder
 ) {
-    private val securityConfigImpl = SecurityConfig(clientRegistrationRepository, customerOAuth2UserService, userNameAndPasswordService, jwtDecoder)
+    private val securityConfigImpl = SecurityConfig(oauth2Config, jwtDecoder)
 
     @Bean
     @Order(Ordered.HIGHEST_PRECEDENCE)
@@ -40,7 +34,7 @@ class TestSecurityConfig(
     @Bean
     @Order(2)
     @Throws(java.lang.Exception::class)
-    fun defaultSecurityFilterChain(http: HttpSecurity): SecurityFilterChain {
-        return securityConfigImpl.defaultSecurityFilterChain(http.csrf().disable())
+    fun defaultSecurityFilterChain(http: HttpSecurity, userNameAndPasswordService: UserDetailsService): SecurityFilterChain {
+        return securityConfigImpl.defaultSecurityFilterChain(http.csrf().disable(), userNameAndPasswordService)
     }
 }
