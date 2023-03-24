@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{layout/layout}">
+<div layout:fragment="content">
+    <div>
+        <p class="display-5">
+            세션 설정 정보
+        </p>
+    </div>
+    <form th:method="put">
+        <div class="mb-3">
+            <label class="form-label" for="id">timeout</label>
+            <input type="text" name="id" class="form-control " id="id" style="width:400px" th:value="${sessionManagement.timeout}">
+        </div>
+        <div class="mb-3">
+            <label class="form-label" for="flushMode">flushMode</label>
+            <div class="form-check">
+                <input class="form-check-input" name="flushMode" type="radio" value="ON_SAVE" id="ON_SAVE" th:checked="${sessionManagement.flushMode.name() == 'ON_SAVE'}">
+                <label class="form-check-label" for="ON_SAVE">
+                    ON_SAVE
+                </label>
+            </div>
+            <div class="form-check">
+                <input class="form-check-input" name="flushMode" type="radio" value="IMMEDIATE" id="IMMEDIATE" th:checked="${sessionManagement.flushMode.name() == 'IMMEDIATE'}">
+                <label class="form-check-label" for="IMMEDIATE">
+                    IMMEDIATE
+                </label>
+            </div>
+        </div>
+        <button type="submit" class="btn btn-primary">저장</button>
+    </form>
+</div>
+</html>
