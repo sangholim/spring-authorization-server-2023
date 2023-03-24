@@ -27,10 +27,31 @@ class SessionManagement(
         var flushMode: FlushMode
 ) {
     companion object {
-        fun of(sessionTimeout: Long, flushMode: FlushMode): SessionManagement = SessionManagement(
-                id = UUID.randomUUID().toString(),
-                timeout = sessionTimeout,
-                flushMode = flushMode
-        )
+        inline fun sessionManagement(block: Builder.() -> Unit) = Builder().apply(block).build()
+
+        fun from(sessionManagement: SessionManagement): Builder = Builder().apply {
+            this.id = sessionManagement.id
+            this.timeout = sessionManagement.timeout
+            this.flushMode = sessionManagement.flushMode
+        }
+    }
+
+
+    private constructor(builder: Builder) : this(builder.id!!, builder.timeout, builder.flushMode)
+
+    class Builder {
+        var id: String? = UUID.randomUUID().toString()
+        var timeout: Long = 0
+        var flushMode: FlushMode = FlushMode.ON_SAVE
+
+        fun build(): SessionManagement {
+            return SessionManagement(this)
+        }
+
+        fun update(payload: SessionManagementUpdatePayload): Builder {
+            this.timeout = payload.timeout
+            this.flushMode = payload.flushMode
+            return this
+        }
     }
 }
