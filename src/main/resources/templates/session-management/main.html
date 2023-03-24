@@ -6,10 +6,10 @@
             세션 설정 정보
         </p>
     </div>
-    <form th:method="put">
+    <form th:action="@{/console/session-management}" th:method="put">
         <div class="mb-3">
             <label class="form-label" for="id">timeout</label>
-            <input type="text" name="id" class="form-control " id="id" style="width:400px" th:value="${sessionManagement.timeout}">
+            <input type="text" name="timeout" class="form-control " id="id" style="width:400px" th:value="${sessionManagement.timeout}">
         </div>
         <div class="mb-3">
             <label class="form-label" for="flushMode">flushMode</label>
