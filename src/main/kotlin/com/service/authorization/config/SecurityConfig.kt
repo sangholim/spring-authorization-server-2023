@@ -1,5 +1,6 @@
 package com.service.authorization.config
 
+import com.service.authorization.oauth.Oauth2AuthorizationAuthenticationSuccessHandler
 import com.service.authorization.userRole.UserRoleName
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
@@ -30,6 +31,9 @@ class SecurityConfig(
         OAuth2AuthorizationServerConfiguration.applyDefaultSecurity(http)
         http.getConfigurer(OAuth2AuthorizationServerConfigurer::class.java)
                 .oidc(Customizer.withDefaults()) // Enable OpenID Connect 1.0
+                .authorizationEndpoint { endpoint ->
+                    endpoint.authorizationResponseHandler(Oauth2AuthorizationAuthenticationSuccessHandler())
+                }
         http.exceptionHandling { exceptions ->
             exceptions
                     .authenticationEntryPoint(
