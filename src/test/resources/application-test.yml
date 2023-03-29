@@ -3,6 +3,11 @@ spring:
     allow-bean-definition-overriding: true
   session:
     timeout: 5
+
+
+authorization:
+  issuer: http://localhost:9090
+
 logging:
   level:
     root: INFO
