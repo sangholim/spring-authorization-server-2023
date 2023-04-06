@@ -2,6 +2,7 @@ package com.service.authorization.config
 
 import com.ninjasquad.springmockk.MockkBean
 import com.ninjasquad.springmockk.MockkBeans
+import com.service.authorization.userRole.UserRoleService
 import org.springframework.boot.test.context.TestConfiguration
 import org.springframework.context.annotation.Bean
 import org.springframework.core.Ordered
@@ -19,9 +20,10 @@ import org.springframework.security.web.SecurityFilterChain
 @TestConfiguration
 class TestSecurityConfig(
         oauth2Config: Oauth2Config,
-        jwtDecoder: JwtDecoder
+        jwtDecoder: JwtDecoder,
+        userRoleService: UserRoleService
 ) {
-    private val securityConfigImpl = SecurityConfig(oauth2Config, jwtDecoder)
+    private val securityConfigImpl = SecurityConfig(oauth2Config, jwtDecoder, userRoleService)
 
     @Bean
     @Order(Ordered.HIGHEST_PRECEDENCE)
