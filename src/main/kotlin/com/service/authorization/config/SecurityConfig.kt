@@ -1,7 +1,9 @@
 package com.service.authorization.config
 
+import com.service.authorization.oauth.OAuth2TokenIntrospectionAuthenticationSuccessHandler
 import com.service.authorization.oauth.Oauth2AuthorizationAuthenticationSuccessHandler
 import com.service.authorization.userRole.UserRoleName
+import com.service.authorization.userRole.UserRoleService
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
 import org.springframework.core.Ordered
@@ -21,7 +23,8 @@ import java.util.*
 @Configuration
 class SecurityConfig(
         private val oauth2Config: Oauth2Config,
-        private val jwtDecoder: JwtDecoder
+        private val jwtDecoder: JwtDecoder,
+        private val userRoleService: UserRoleService
 ) {
 
     @Bean
@@ -30,9 +33,12 @@ class SecurityConfig(
     fun authorizationServerSecurityFilterChain(http: HttpSecurity): SecurityFilterChain {
         OAuth2AuthorizationServerConfiguration.applyDefaultSecurity(http)
         http.getConfigurer(OAuth2AuthorizationServerConfigurer::class.java)
+                //.oidc(Customizer.withDefaults()) // Enable OpenID Connect 1.0
                 .oidc(Customizer.withDefaults()) // Enable OpenID Connect 1.0
                 .authorizationEndpoint { endpoint ->
                     endpoint.authorizationResponseHandler(Oauth2AuthorizationAuthenticationSuccessHandler())
+                }.tokenIntrospectionEndpoint { endpoint ->
+                    endpoint.introspectionResponseHandler(OAuth2TokenIntrospectionAuthenticationSuccessHandler(userRoleService))
                 }
         http.exceptionHandling { exceptions ->
             exceptions
