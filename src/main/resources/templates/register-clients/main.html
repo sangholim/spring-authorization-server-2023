@@ -4,7 +4,7 @@
     <script type="text/javascript" th:src="@{/js/register-clients/main.js}"></script>
 </th:block>
 <div layout:fragment="content">
-    <a class="btn btn-primary" href="/console/register-clients/views/creation" role="button">추가</a>
+    <a class="btn btn-primary" th:href="@{/console/register-clients/views/creation}" role="button">추가</a>
     <a class="btn btn-primary" role="button" th:onclick="deleteClients()">선택 항목 제거</a>
     <table class="table table-bordered table-hover" style="table-layout: fixed;">
         <thead>

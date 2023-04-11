@@ -9,8 +9,8 @@ import java.util.*
 
 object CookieUtils {
     fun getCookie(request: HttpServletRequest, name: String): Cookie? {
-        val cookies: Array<Cookie> = request.cookies
-        return cookies.firstOrNull { it.name == name }
+        val cookies: Array<Cookie>? = request.cookies
+        return cookies?.firstOrNull { it.name == name }
     }
 
     fun addCookie(response: HttpServletResponse, name: String, value: String, maxAge: Int) {
@@ -23,7 +23,7 @@ object CookieUtils {
     }
 
     fun deleteCookie(request: HttpServletRequest, response: HttpServletResponse, name: String) {
-        request.cookies.firstOrNull { it.name == name }?.run {
+        request.cookies?.firstOrNull { it.name == name }?.run {
             this.value = ""
             this.path = "/"
             this.maxAge = 0

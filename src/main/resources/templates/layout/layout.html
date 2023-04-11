@@ -2,6 +2,10 @@
 <html xmlns:th="https://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
 <head th:replace="head/head::head"></head>
 <script type="text/javascript" th:src="@{/js/components/nav.js}"></script>
+<script type="text/javascript" th:src="@{/js/common/contextPath.js}"></script>
+<script type="text/javascript" th:inline="javascript">
+    contextPath.value = /*[[@{/}]]*/ ;
+</script>
 <th:block layout:fragment="script">
     <!--
     script 추가해 주세요

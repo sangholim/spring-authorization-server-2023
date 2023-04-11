@@ -1,16 +1,16 @@
 <html xmlns="http://www.w2.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
 <div th:fragment="menu" class="col-xs-2 col-sm-2 col-md-2 col-lg-2 border p-5">
-  <div class="row" onclick="location.href='/console/users';">
+  <div class="row" th:onclick="|location.href='@{/console/users}'|">
     <span class="d-inline-block text-truncate">
       회원
     </span>
   </div>
-  <div class="row" onclick="location.href='/console/register-clients';">
+  <div class="row" th:onclick="|location.href='@{/console/register-clients}'|">
     <span class="d-inline-block text-truncate">
       승인 서버 클라이언트
     </span>
   </div>
-  <div class="row" onclick="location.href='/console/session-management';">
+  <div class="row" th:onclick="|location.href='@{/console/session-management}'|">
     <span class="d-inline-block text-truncate">
       세션 설정
     </span>
