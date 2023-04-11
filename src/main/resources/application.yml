@@ -3,6 +3,7 @@ spring:
     include:
       - local
 server:
+  forward-headers-strategy: NONE
   error:
     whitelabel:
       enabled: false
