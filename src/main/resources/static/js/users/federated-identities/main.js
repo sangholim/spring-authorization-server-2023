@@ -1,7 +1,7 @@
 function deleteUserFederatedIdentities(userId) {
   const nodes = document.querySelectorAll("input[name='checkId']:checked");
   const ids = Array.from(nodes).map(x => x.value).join(",");
-  const url = `/console/users/${userId}/federated-identities?ids=${ids}`;
+  const url = `${contextPath.value}console/users/${userId}/federated-identities?ids=${ids}`;
   const csrf = document.querySelector("input[name='_csrf']").value;
   var xhr = new XMLHttpRequest();
   xhr.open("DELETE",url);
