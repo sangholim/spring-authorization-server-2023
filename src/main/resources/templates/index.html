@@ -27,7 +27,7 @@
             <input type="password" id="password" name="password" class="form-control" placeholder="Password" required>
         </p>
         <button class="btn btn-lg btn-primary btn-block" type="submit">Sign in</button>
-        <a class="btn btn-light btn-block bg-white" href="/oauth2/authorization/kakao" role="link" style="text-transform: none;">
+        <a class="btn btn-light btn-block bg-white" th:href="@{/oauth2/authorization/kakao}" role="link" style="text-transform: none;">
             <img width="20" style="margin-right: 5px;" alt="Sign in with Google" src="https://upload.wikimedia.org/wikipedia/commons/e/e3/KakaoTalk_logo.svg" />
             Sign in with Kakao
         </a>
