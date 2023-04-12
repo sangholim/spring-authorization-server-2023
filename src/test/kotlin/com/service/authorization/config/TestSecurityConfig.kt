@@ -2,14 +2,13 @@ package com.service.authorization.config
 
 import com.ninjasquad.springmockk.MockkBean
 import com.ninjasquad.springmockk.MockkBeans
-import com.service.authorization.userRole.UserRoleService
+import com.service.authorization.user.CustomUserDetailsService
 import org.springframework.boot.test.context.TestConfiguration
 import org.springframework.context.annotation.Bean
 import org.springframework.core.Ordered
 import org.springframework.core.annotation.Order
 import org.springframework.security.config.annotation.web.builders.HttpSecurity
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity
-import org.springframework.security.core.userdetails.UserDetailsService
 import org.springframework.security.oauth2.jwt.JwtDecoder
 import org.springframework.security.web.SecurityFilterChain
 
@@ -21,9 +20,9 @@ import org.springframework.security.web.SecurityFilterChain
 class TestSecurityConfig(
         oauth2Config: Oauth2Config,
         jwtDecoder: JwtDecoder,
-        userRoleService: UserRoleService
+        customerUserDetailsService: CustomUserDetailsService
 ) {
-    private val securityConfigImpl = SecurityConfig(oauth2Config, jwtDecoder, userRoleService)
+    private val securityConfigImpl = SecurityConfig(oauth2Config, jwtDecoder, customerUserDetailsService)
 
     @Bean
     @Order(Ordered.HIGHEST_PRECEDENCE)
@@ -36,7 +35,7 @@ class TestSecurityConfig(
     @Bean
     @Order(2)
     @Throws(java.lang.Exception::class)
-    fun defaultSecurityFilterChain(http: HttpSecurity, userNameAndPasswordService: UserDetailsService): SecurityFilterChain {
-        return securityConfigImpl.defaultSecurityFilterChain(http.csrf().disable(), userNameAndPasswordService)
+    fun defaultSecurityFilterChain(http: HttpSecurity): SecurityFilterChain {
+        return securityConfigImpl.defaultSecurityFilterChain(http.csrf().disable())
     }
 }
