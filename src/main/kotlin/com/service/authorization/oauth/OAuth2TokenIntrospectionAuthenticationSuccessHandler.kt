@@ -43,7 +43,6 @@ class OAuth2TokenIntrospectionAuthenticationSuccessHandler(
         if (userId == null || authorizationGrantTypes == null) return emptyMap()
         if (authorizationGrantTypes.count { it == AuthorizationGrantType.CLIENT_CREDENTIALS } == 0) return emptyMap()
         val dto = customUserDetailsService.loadUserById(userId)
-        claims.putIfAbsent("email", dto.email)
         dto.roles?.run {
             claims.putIfAbsent("roles", this)
         }

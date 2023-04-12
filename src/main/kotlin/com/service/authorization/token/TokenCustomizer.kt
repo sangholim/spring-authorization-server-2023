@@ -18,6 +18,7 @@ class TokenCustomizer(
             context.claims.claims { claim ->
                 customOAuth2UserService.findUser(subject)?.run {
                     claim["sub"] = this.id
+                    claim["email"] = this.email
                 }
             }
         }
