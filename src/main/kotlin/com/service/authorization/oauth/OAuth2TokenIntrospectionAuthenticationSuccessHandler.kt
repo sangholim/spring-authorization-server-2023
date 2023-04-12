@@ -1,7 +1,6 @@
 package com.service.authorization.oauth
 
-import com.service.authorization.userRole.UserRoleService
-import com.service.authorization.userRole.excludeAdmin
+import com.service.authorization.user.CustomUserDetailsService
 import jakarta.servlet.http.HttpServletRequest
 import jakarta.servlet.http.HttpServletResponse
 import org.springframework.http.server.ServletServerHttpResponse
@@ -17,7 +16,7 @@ import org.springframework.security.web.authentication.AuthenticationSuccessHand
  * token-introspect 검증 끝난후 처리 로직
  */
 class OAuth2TokenIntrospectionAuthenticationSuccessHandler(
-        private val userRoleService: UserRoleService
+        private val customUserDetailsService: CustomUserDetailsService
 ) : AuthenticationSuccessHandler {
     private val tokenIntrospectionHttpResponseConverter = OAuth2TokenIntrospectionHttpMessageConverter()
     override fun onAuthenticationSuccess(request: HttpServletRequest, response: HttpServletResponse, authentication: Authentication) {
@@ -43,7 +42,9 @@ class OAuth2TokenIntrospectionAuthenticationSuccessHandler(
         val claims = mutableMapOf<String, Any>()
         if (userId == null || authorizationGrantTypes == null) return emptyMap()
         if (authorizationGrantTypes.count { it == AuthorizationGrantType.CLIENT_CREDENTIALS } == 0) return emptyMap()
-        userRoleService.getAllBy(userId).excludeAdmin().ifEmpty { null }?.map { it.name.toString() }?.run {
+        val dto = customUserDetailsService.loadUserById(userId)
+        claims.putIfAbsent("email", dto.email)
+        dto.roles?.run {
             claims.putIfAbsent("roles", this)
         }
         return claims

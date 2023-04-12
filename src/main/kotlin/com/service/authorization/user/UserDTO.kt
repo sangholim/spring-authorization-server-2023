@@ -15,11 +15,11 @@ data class UserDTO(
         val email: String,
 
         /**
-         * todo: 암호화 처리
+         * 권한
          */
-        val password: String
+        val roles: List<String>? = emptyList()
 )
 
-fun User.toDTO() = UserDTO(
-        id, email, password
+fun User.toDTO(roles: List<String>? = null) = UserDTO(
+        id, email, roles
 )
